@@ -1,0 +1,30 @@
+{
+  "name": "stewart-6dof-simulator",
+  "version": "1.0.0",
+  "description": "Stewart 6DOF Simulator for Hexi",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "babel-runtime": "^6.23.0",
+    "dat.gui": "^0.6.1",
+    "lodash": "^4.17.4",
+    "stats.js": "^0.17.0",
+    "three": "^0.85.2",
+    "three-orbit-controls": "^82.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
+    "html-webpack-plugin": "^2.28.0",
+    "json-loader": "^0.5.4",
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "scripts": {
+    "start": "webpack --progress --colors",
+    "dev": "webpack-dev-server --progress --colors"
+  }
+}
