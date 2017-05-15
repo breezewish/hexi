@@ -2,6 +2,7 @@ from scipy import signal
 
 import numpy as np
 import matplotlib.pyplot as plt
+import profile
 
 # 2nd-order LP
 
@@ -45,19 +46,14 @@ for i in range(200, 700):
 for i in range(700, 800):
   impulse[i] = 6 - ((i - 700) / 100 * 6)
 
-for i in range(0, 20 * 100):
-  print(x[i], impulse[i])
+#for i in range(0, 20 * 100):
+#  print(x[i], impulse[i])
 
-h_lp = signal.lfilter(b2_lp, a2_lp, impulse)
-h_hp = signal.lfilter(b2_hp, a2_hp, impulse)
-h_hp_3 = signal.lfilter(b2_hp_3, a2_hp_3, impulse)
-
-fig, ax = plt.subplots()
-#ax.plot(x, impulse, label='Input Signal')
-#ax.plot(x, h_lp, label='2rd-order LP')
-#ax.plot(x, h_hp, label='2rd-order HP')
-#ax.plot(x, h_hp_3, label='3rd-order HP')
-
+def run():
+  h_lp = signal.lfilter(b2_lp, a2_lp, impulse)
+  h_hp = signal.lfilter(b2_hp, a2_hp, impulse)
+  h_hp_3 = signal.lfilter(b2_hp_3, a2_hp_3, impulse)
+  return h_lp, h_hp, h_hp_3
 
 def integrate(arr):
   output_arr = np.zeros(len(arr), dtype=np.float)
@@ -67,9 +63,18 @@ def integrate(arr):
     output_arr[idx] = sum_val
   return output_arr
 
+profile.run('run()')
+
+h_lp, h_hp, h_hp_3 = run()
+fig, ax = plt.subplots()
+
 disp_hp = integrate(integrate(h_hp))
 disp_hp_3 = integrate(integrate(h_hp_3))
 
+#ax.plot(x, impulse, label='Input Signal')
+#ax.plot(x, h_lp, label='2rd-order LP')
+#ax.plot(x, h_hp, label='2rd-order HP')
+#ax.plot(x, h_hp_3, label='3rd-order HP')
 ax.plot(x, disp_hp, label='2rd-order HP Displacement')
 ax.plot(x, disp_hp_3, label='3rd-order HP Displacement')
 ax.legend(loc='lower right')
