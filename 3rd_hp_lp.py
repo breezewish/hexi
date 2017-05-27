@@ -30,6 +30,8 @@ b_hp_3 = [1, 0, 0, 0]
 a_hp_3 = [1, 2 * t_hp_3 * w_n_hp_3 + w_b_hp_3, w_n_hp_3 ** 2 + w_b_hp_3 * 2 * t_hp_3 * w_n_hp_3, w_n_hp_3 ** 2 * w_b_hp_3]
 
 b2_lp, a2_lp = signal.bilinear(b_lp, a_lp, fs=100)
+print(b2_lp, a2_lp)
+
 b2_hp, a2_hp = signal.bilinear(b_hp, a_hp, fs=100)
 b2_hp_3, a2_hp_3 = signal.bilinear(b_hp_3, a_hp_3, fs=100)
 #print(b2_lp)

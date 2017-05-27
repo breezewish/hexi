@@ -1,0 +1,10 @@
+[Core]
+Id = input-flight-attitude
+Category = input
+Name = 飞行姿态输入插件
+Module = foo
+
+[Documentation]
+Author = Built-in
+Version = 0.1
+Description = 根据内置的几种飞行姿态进行体感模拟

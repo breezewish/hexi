@@ -1,0 +1,45 @@
+{
+  "name": "hexi",
+  "version": "1.0.0",
+  "description": "Motion Cueing Framework",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.16.1",
+    "babel-runtime": "^6.23.0",
+    "element-ui": "^1.3.4",
+    "lodash": "^4.17.4",
+    "open-color": "^1.5.1",
+    "vue": "^2.3.3",
+    "vue-moment": "^2.0.2",
+    "vue-router": "^2.5.3",
+    "vuex": "^2.3.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.1",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.5.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "css-loader": "^0.28.3",
+    "file-loader": "^0.11.1",
+    "ini-loader": "^1.0.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "url-loader": "^0.5.8",
+    "vue-loader": "^12.1.0",
+    "vue-style-loader": "^3.0.1",
+    "vue-template-compiler": "^2.3.3",
+    "webpack": "^2.6.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
+  "scripts": {
+    "build:coreDll": "webpack --config hexi/build/webpack.config.js --env.type coreDll",
+    "build:core": "webpack --config hexi/build/webpack.config.js --env.type core",
+    "build:plugin": "webpack --config hexi/build/webpack.config.js --env.type plugin"
+  }
+}

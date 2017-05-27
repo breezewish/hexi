@@ -1,0 +1,10 @@
+[Core]
+Id = input-fsx
+Category = input
+Name = FSX 输入插件
+Module = main
+
+[Documentation]
+Author = Built-in
+Version = 0.1
+Description = 对 Microsoft Flight Simulator X 中的飞机进行体感模拟

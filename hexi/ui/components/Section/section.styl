@@ -1,0 +1,45 @@
+.section
+  background: #FFF
+  padding: 0 1px 1px 1px
+  margin-right: -1px
+  box-shadow: 2px 0 10px rgba(#000, 0.1)
+  font-size: 14px
+
+  &_inner
+    display: flex
+    flex-direction: column
+    height: 100%
+
+  &_title
+    padding: 8px 10px
+    border-top: 3px solid oc-gray-2
+    background: oc-gray-0
+    transition: background-color .1s linear
+    color: #444
+    font-size: 16px
+
+  &_body
+    flex: 1
+    overflow-y: auto
+
+  &_content
+    margin: 10px
+    white-space: normal
+
+    &.extended
+      margin-left: 0
+      margin-right: 0
+
+.section-container
+  width: 100%
+  white-space: nowrap
+
+.section-container .section-container
+  width: auto
+
+.section, .section-container
+  vertical-align: top
+  box-sizing: border-box
+  display: inline-block
+  position: relative
+  height: 100%
