@@ -1,5 +1,4 @@
 export default class UiNotFoundPage {
-  static id = 'UiNotFoundPage';
   registerRoutes(routes) {
     routes['hexiNotFound'] = {
       order: -999,

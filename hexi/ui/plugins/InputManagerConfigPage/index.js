@@ -1,5 +1,4 @@
 export default class UiInputManagerConfigPage {
-  static id = 'UiInputManagerConfigPage';
   registerRoutes(routes) {
     routes['hexiLayoutPage'].children = routes['hexiLayoutPage'].children || [];
     routes['hexiLayoutPage'].children.push({

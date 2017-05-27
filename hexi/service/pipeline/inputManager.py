@@ -1,6 +1,5 @@
 from sanic import Blueprint
 from sanic.response import json
-from sanic.response import text
 from hexi.service import event
 from hexi.service import plugin
 from hexi.service import web

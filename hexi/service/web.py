@@ -12,9 +12,9 @@ app = Sanic()
 
 app.static('/', 'hexi/ui/root/index.html')
 
-routeCore = Blueprint('core', url_prefix='/core')
-routeCore.static('/static', 'hexi/.ui_built')
-app.blueprint(routeCore)
+bp = Blueprint('core', url_prefix='/core')
+bp.static('/static', 'hexi/.ui_built')
+app.blueprint(bp)
 
 
 def init():

@@ -1,10 +1,8 @@
 import PLUGIN_MANIFEST from '../fsx.plugin';
 import _ from 'lodash';
 
-class PluginInputFsx {
+export default class PluginInputFlightAttitude {
   constructor() {
     console.log(PLUGIN_MANIFEST);
   }
 }
-
-Hexi.registerPlugin(PluginInputFsx);

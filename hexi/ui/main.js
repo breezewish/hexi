@@ -11,6 +11,7 @@ import App from '@core/App';
 import store from '@core/store';
 import SidebarBuilder from '@core/utils/sidebarBuilder';
 import RouterBuilder from '@core/utils/routerBuilder';
+import API from '@core/utils/api';
 
 Vue.use(Router);
 Vue.use(ElementUI);
@@ -25,10 +26,22 @@ Hexi.routerBuilder = new RouterBuilder();
 Hexi.sidebarBuilder = new SidebarBuilder();
 Hexi.loadPlugin = require('@core/utils/loadPlugin').default;
 
+Hexi.externalPlugins = [];
+Hexi.registerPlugin = (BaseClass) => {
+  Hexi.externalPlugins.push(BaseClass);
+};
+
 async function main() {
   await Hexi.loadPlugin(require('@core/plugins/LayoutPage').default);
   await Hexi.loadPlugin(require('@core/plugins/NotFoundPage').default);
   await Hexi.loadPlugin(require('@core/plugins/InputManagerConfigPage').default);
+  await Promise.all(Hexi.externalPlugins.map(async BaseClass => {
+    try {
+      Hexi.loadPlugin(BaseClass);
+    } catch (e) {
+      console.error('Failed to load external plugin: %s', BaseClass.name);
+    }
+  }));
 
   const router = Hexi.routerBuilder.buildRouter();
   Hexi.sidebarBuilder.updateStore();
@@ -41,4 +54,6 @@ async function main() {
   });
 }
 
-main().catch(e => console.error(e));
+Hexi.start = () => {
+  main().catch(e => console.error(e));
+};
