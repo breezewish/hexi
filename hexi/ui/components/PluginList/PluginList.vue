@@ -8,7 +8,6 @@
       :checked="checkedId && checkedId.indexOf(item.id) > -1"
       :showConfigure="showConfigure"
       @click="handleClick(item.id)"
-      @clickConfigure="handleClickConfigure(item.id)"
     ></ui-plugin-list-item>
   </ul>
 </template>
@@ -53,14 +52,15 @@ export default {
     handleClick(id) {
       let newCheckedId;
       if (this.canMultiCheck) {
-        newCheckedId = _.union(this.checkedId, [id]);
+        if (this.checkedId.indexOf(id) > -1) {
+          newCheckedId = _.difference(this.checkedId, [id]);
+        } else {
+          newCheckedId = _.union(this.checkedId, [id]);
+        }
       } else {
         newCheckedId = [id];
       }
       this.$emit('change', newCheckedId);
-    },
-    handleClickConfigure(id) {
-      this.$emit('clickConfigure', id);
     },
   },
 }

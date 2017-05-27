@@ -1,8 +1,8 @@
 <template>
-  <ui-section-container key="page-input-config" v-loading.body="loading">
-    <ui-section title="输入方式" width="300px">
+  <ui-section-container key="page_input-manager_config_activated-plugin" v-loading.body="loading">
+    <ui-section title="输入信号源" width="300px">
       <ui-section-content>
-        当前已安装以下插件，请选择一项作为输入。
+        以下是当前可用的输入信号源，请选择一项作为输入信号。
       </ui-section-content>
       <ui-section-content>
         <el-button type="primary" :disabled="!hasChanged || loading" @click="handleSave">保存</el-button>
@@ -29,7 +29,7 @@
 import API from '@core/utils/api';
 
 export default {
-  name: 'page-input-config',
+  name: 'page_input-manager_config_activated-plugin',
   data() {
     return {
       data: {},

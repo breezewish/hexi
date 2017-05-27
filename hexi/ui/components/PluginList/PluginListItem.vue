@@ -10,12 +10,22 @@
     <div class="plugin-list_item_description" v-if="item.description">
       <p>{{ item.description }}</p>
     </div>
-    <div class="plugin-list_item_actions" v-if="showConfigure">
+    <div class="plugin-list_item_actions" v-if="showConfigure || canCheck">
       <el-button
         type="text"
         @click.stop="handleClickConfigure"
         :disabled="!item.configurable"
+        v-if="showConfigure"
       >配置</el-button>
+      <el-button
+        type="text"
+        @click.stop="handleClickChoose"
+        :disabled="checked"
+        v-if="canCheck"
+      >
+        <span v-if="checked">已选择</span>
+        <span v-if="!checked">选择</span>
+      </el-button>
     </div>
     <div class="plugin-list_item_check" v-if="canCheck && checked"><i class="el-icon-check"></i></div>
   </li>
@@ -50,8 +60,11 @@ export default {
         this.$emit('click', !this.checked);
       }
     },
+    handleClickChoose() {
+      this.handleClick();
+    },
     handleClickConfigure() {
-      this.$emit('clickConfigure')
+      this.$router.push(`/plugins/${this.item.id}/config`);
     },
   },
 }
@@ -59,6 +72,7 @@ export default {
 
 <style scoped lang="stylus">
 .plugin-list_item
+  user-select: none
   position: relative
   display: block
   padding: 10px
@@ -76,11 +90,11 @@ export default {
       background: oc-gray-1
 
 .plugin-list_item_title
-  font-size: 16px
-  margin-bottom: 10px
+  margin-bottom: 5px
 
 .plugin-list_item_description
   margin: 10px 0
+  margin-bottom: 5px
   font-size: 12px
   color: oc-gray-6
 

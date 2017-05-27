@@ -8,8 +8,8 @@ class PluginInputFsx {
 
   registerRoutes(routes) {
     routes.push({
-      name: 'fsxPluginConfigPage',
-      parent: 'hexiInputManagerConfigPage',
+      name: 'inputPluginFsxConfig',
+      parent: 'hexiInputManagerConfigActivatedPlugin',
       path: '/plugins/input-fsx/config',
       component: require('./PluginConfig.vue'),
       meta: {

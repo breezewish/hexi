@@ -1,5 +1,6 @@
 import 'element-ui/lib/theme-default/reset.css';
 import 'element-ui/lib/theme-default/index.css';
+import 'font-awesome-webpack';
 
 import Vue from 'vue';
 import Router from 'vue-router';
@@ -7,6 +8,7 @@ import ElementUI from 'element-ui';
 import Moment from 'vue-moment';
 import UiSection from '@core/components/Section';
 import UiPluginList from '@core/components/PluginList';
+import UiMenuList from '@core/components/MenuList';
 import App from '@core/App';
 import store from '@core/store';
 import SidebarBuilder from '@core/utils/sidebarBuilder';
@@ -18,6 +20,7 @@ Vue.use(ElementUI);
 Vue.use(Moment);
 Vue.use(UiSection);
 Vue.use(UiPluginList);
+Vue.use(UiMenuList);
 
 const Hexi = {};
 window.Hexi = Hexi;
@@ -34,7 +37,7 @@ Hexi.registerPlugin = (BaseClass) => {
 async function main() {
   await Hexi.loadPlugin(require('@core/plugins/LayoutPage').default);
   await Hexi.loadPlugin(require('@core/plugins/NotFoundPage').default);
-  await Hexi.loadPlugin(require('@core/plugins/InputManagerConfigPage').default);
+  await Hexi.loadPlugin(require('@core/plugins/InputManager').default);
   await Promise.all(Hexi.externalPlugins.map(async BaseClass => {
     try {
       Hexi.loadPlugin(BaseClass);
