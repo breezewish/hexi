@@ -1,12 +1,12 @@
 export default class UiLayoutPage {
   registerRoutes(routes) {
-    routes['hexiLayoutPage'] = {
+    routes.push({
+      name: 'hexiLayoutPage',
       path: '/',
       component: require('./Layout.vue'),
-      children: [],
       meta: {
         title: 'Hexi',
       },
-    };
+    });
   }
 }

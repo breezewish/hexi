@@ -6,10 +6,10 @@ export default async function loadPlugin(PluginClass) {
     await plugin.init();
   }
   if (plugin.registerRoutes) {
-    await plugin.registerRoutes(Hexi.routerBuilder.namedRoutes);
+    await plugin.registerRoutes(Hexi.routerBuilder.getRawData());
   }
   if (plugin.registerSidebarMenus) {
-    await plugin.registerSidebarMenus(Hexi.sidebarBuilder.menus);
+    await plugin.registerSidebarMenus(Hexi.sidebarBuilder.getRawData());
   }
   loadedPlugins.push(plugin);
 }
