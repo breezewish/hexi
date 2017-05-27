@@ -2,15 +2,11 @@ import PLUGIN_MANIFEST from '../fsx.plugin';
 import _ from 'lodash';
 
 class PluginInputFsx {
-  constructor() {
-    console.log(PLUGIN_MANIFEST);
-  }
-
   registerRoutes(routes) {
     routes.push({
       name: 'inputPluginFsxConfig',
       parent: 'hexiInputManagerConfigActivatedPlugin',
-      path: '/plugins/input-fsx/config',
+      path: `/plugins/${PLUGIN_MANIFEST.Core.Id}/config`,
       component: require('./PluginConfig.vue'),
       meta: {
         title: '配置 FSX 插件',
