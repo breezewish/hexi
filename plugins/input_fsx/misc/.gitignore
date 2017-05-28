@@ -1,0 +1,3 @@
+dest_python/*
+dest_csharp/*
+!.gitkeep

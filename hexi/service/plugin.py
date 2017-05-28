@@ -1,6 +1,7 @@
 import logging
 import json
 import os
+import configparser
 
 from sanic import Blueprint
 from sanic.response import text
@@ -38,12 +39,12 @@ def load():
   for plugin in pm.getAllPlugins():
     try:
       id = plugin.details.get('Core', 'Id')
-    except ConfigParser.NoOptionError:
+    except configparser.NoOptionError:
       _logger.error('Plugin `{0}` is ignored because of missing valid `Id` property.'.format(plugin.name))
     try:
       category = plugin.details.get('Core', 'Category')
       assert(category in pluginsByCategory.keys())
-    except ConfigParser.NoOptionError:
+    except configparser.NoOptionError:
       _logger.error('Plugin `{0}` is ignored because of missing valid `Category` property.'.format(plugin.name))
 
     pluginsByCategory[category].append(plugin)

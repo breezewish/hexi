@@ -5,7 +5,7 @@ from hexi.service import plugin
 from hexi.service import web
 from hexi.plugin.InputPlugin import InputPlugin
 
-bp = Blueprint('input', url_prefix='/input')
+bp = Blueprint('input', url_prefix='/core/input')
 
 
 @bp.route('/api/plugins')

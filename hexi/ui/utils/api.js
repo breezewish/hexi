@@ -4,10 +4,10 @@ import { Message } from 'element-ui';
 const API = {
   input: {
     plugins() {
-      return request.get('/input/api/plugins');
+      return request.get('/core/input/api/plugins');
     },
     setEnabledPlugins(idList) {
-      return request.post('/input/api/plugins/enabled', { id: idList });
+      return request.post('/core/input/api/plugins/enabled', { id: idList });
     },
   },
 };

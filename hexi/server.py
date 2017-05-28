@@ -4,18 +4,27 @@ import sys
 import asyncio
 import uvloop
 import signal
-
 import sanic.config
+
+from hexi.util import taillog
 
 _logger = logging.getLogger(__name__)
 
 def main():
+  sanic.config.LOGGING['handlers']['memoryTailLog'] = {
+    '()': taillog.TailLogHandler,
+    'log_queue': taillog.log_queue,
+    'filters': ['accessFilter'],
+    'formatter': 'simple',
+  }
   sanic.config.LOGGING['root'] = {
     'level': 'DEBUG',
-    'handlers': ['internal', 'errorStream'],
+    'handlers': ['internal', 'errorStream', 'memoryTailLog'],
   }
   sanic.config.LOGGING['loggers']['sanic']['propagate'] = False
+  sanic.config.LOGGING['loggers']['sanic']['handlers'].append('memoryTailLog')
   sanic.config.LOGGING['loggers']['network']['propagate'] = False
+  sanic.config.LOGGING['loggers']['network']['handlers'].append('memoryTailLog')
   sanic.config.LOGGING['disable_existing_loggers'] = False
   logging.config.dictConfig(sanic.config.LOGGING)
 
@@ -25,11 +34,13 @@ def main():
   from hexi.service import event
   from hexi.service import plugin
   from hexi.service import web
+  from hexi.service import log
   from hexi.service.pipeline import inputManager
   from hexi.service.pipeline import mcaManager
   from hexi.service.pipeline import outputManager
   plugin.init()
   web.init()
+  log.init()
   inputManager.init()
   mcaManager.init()
   outputManager.init()

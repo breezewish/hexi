@@ -1,8 +1,8 @@
 [Core]
-Id = input-fsx
+Id = input_fsx
 Category = input
 Name = FSX 输入插件
-Module = main
+Module = plugin
 
 [Documentation]
 Author = Built-in

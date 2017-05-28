@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package FsxProtocol;
+
+message TcpRequestMessage {
+  enum MsgType {
+    SET_CONFIG = 0;
+    PING = 1;
+    TEST_CONNECTION = 2;
+    START_TRANSMISSION = 3;
+    STOP_TRANSMISSION = 4;
+  }
+
+  message SetConfigBody {
+    int32 udpPort = 1;
+    int32 udpToken = 2;
+    int32 updateFreq = 3;
+  }
+
+  message PingBody {
+    int32 timeStamp = 1;
+  }
+
+  message TestConnBody {
+    int32 magicToken = 1;
+  }
+
+  MsgType msgType = 1;
+  oneof msgBody {
+    SetConfigBody setConfigBody = 2;
+    PingBody pingBody = 3;
+    TestConnBody testConnBody = 4;
+  }
+}
+
+message TcpResponseMessage {
+  bool success = 1;
+  int32 timeStamp = 2;
+}
+
+message UdpResponseMessage {
+  enum MsgType {
+    TEST_CONNECTION_CALLBACK = 0;
+    TRANSMISSION_DATA = 1;
+  }
+
+  message TestConnCallbackBody {
+    int32 magicToken = 1;
+  }
+
+  message TransmissionDataBody {
+    double xAcceleration = 1;
+    double yAcceleration = 2;
+    double zAcceleration = 3;
+    double pitchVelocity = 4;
+    double rowVelocity = 5;
+    double yawVelocity = 6;
+  }
+
+  MsgType msgType = 1;
+  oneof msgBody {
+    TestConnCallbackBody testConnCallbackBody = 2;
+    TransmissionDataBody transmissionDataBody = 3;
+  }
+}

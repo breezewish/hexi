@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 
 async def publish(key, value):
-  _logger.debug('Event {0}'.format(key))
+  #_logger.debug('Event {0}'.format(key))
   coroutines = [subscriber({'key': key, 'value': value})
                 for subscriber, key_set in _subscribers.items()
                 if key in key_set]
