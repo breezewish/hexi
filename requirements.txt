@@ -1,2 +1,4 @@
 sanic
 yapsy
+protobuf
+pyee

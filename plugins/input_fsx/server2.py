@@ -1,50 +1,33 @@
 import signal
+import time
 
 
 import asyncio
 import random
+import pyee
+
+from plugins.input_fsx import fsx_pb2
 
 
 class UDPServer(asyncio.DatagramProtocol):
-  def __init__(self):
+  def __init__(self, manager):
     super().__init__()
-    self.manager = None
-
-  def set_manager_instance(self, manager):
-    assert(self.manager == None)
     self.manager = manager
 
-  def connection_made(self, transport):
-    self.transport = transport
-
   def datagram_received(self, data, addr):
-    self.manager.on_datagram_received(data, addr)
-    #message = data.decode()
-    #print('message received: {0}'.format(message))
+    self.manager.ee.emit('udp_received', data, addr)
 
   def connection_lost(self, exc):
-    print('udp connection lost')
-    assert(self.manager != None)
-    self.manager = None
+    self.manager.ee.emit('udp_closed')
 
 
 class TCPClient(asyncio.Protocol):
-  def __init__(self):
+  def __init__(self, manager):
     super().__init__()
-    self.manager = None
-
-  def set_manager_instance(self, manager):
-    assert(self.manager == None)
     self.manager = manager
 
-  def connection_made(self, transport):
-    self.transport = transport
-    self.manager.on_connection_made()
-
   def connection_lost(self, exc):
-    assert(self.manager != None)
-    self.manager.on_connection_lost()
-    self.manager = None
+    self.manager.ee.emit('tcp_disconnected')
 
 
 class TCPClientManager(object):
@@ -58,17 +41,22 @@ class TCPClientManager(object):
     self.transport = None
     self.protocol = None
     self.state = 'idle'
+    self.ee = channel.ee
+    self.ee.on('tcp_disconnected', self.on_tcp_disconnected)
+
+  def protocol_factory(self):
+    return TCPClient(self)
 
   async def connect_async(self):
     while True and (self.state in ['connecting', 'reconnecting']):
       try:
         transport, protocol = await loop.create_connection(
-          TCPClient, self.host, self.port)
+          self.protocol_factory, self.host, self.port)
+        print('tcp connected')
         self.transport = transport
         self.protocol = protocol
-        self.protocol.set_manager_instance(self)
         self.state = 'connected'
-        print('tcp connected')
+        self.ee.emit('tcp_connected', transport)
         break
       except OSError:
         print('Server not connected, retry in {0} seconds'.format(self.retry_sec))
@@ -86,15 +74,12 @@ class TCPClientManager(object):
   def on_connect_done(self, future):
     self.connect_future = None
 
-  def on_connection_lost(self):
+  def on_tcp_disconnected(self):
     print('tcp connection lost')
     self.transport = None
     self.protocol = None
     if self.state != 'disconnected':
       self.reconnect()
-
-  def on_connection_made(self):
-    self.channel.on_tcp_connection_made()
 
   async def reconnect_async(self):
     await self.connect_async()
@@ -132,15 +117,19 @@ class UDPServerManager(object):
     self.transport = None
     self.protocol = None
     self.state = 'idle'
+    self.ee = channel.ee
+
+  def protocol_factory(self):
+    return UDPServer(self)
 
   async def create_endpoint_async(self):
     assert(self.state in ['idle', 'closed'])
     print('creating udp server')
     self.state = 'opening'
-    transport, protocol = await loop.create_datagram_endpoint(UDPServer, local_addr=(self.host, self.port))
+    transport, protocol = await loop.create_datagram_endpoint(
+      self.protocol_factory, local_addr=(self.host, self.port))
     self.transport = transport
     self.protocol = protocol
-    self.protocol.set_manager_instance(self)
     self.state = 'opened'
     print('udp server created')
 
@@ -153,15 +142,15 @@ class UDPServerManager(object):
       self.transport == None
       self.protocol == None
 
-  def on_datagram_received(self, data, addr):
-    self.channel.on_udp_received(data, addr)
-
 
 class DataChannel(object):
   def __init__(self, udp_port, tcp_host, tcp_port):
+    self.ee = pyee.EventEmitter()
     self.udp_token = random.randint(0, 0x6FFFFFFF)
     self.tcp = TCPClientManager(self, tcp_host, tcp_port)
     self.udp = UDPServerManager(self, '0.0.0.0', udp_port)
+    #self.ee.on('tcp_connected', self.on_tcp_connected)
+    #self.ee.on('udp_received', self.on_udp_received)
 
   async def start_async(self):
     print('data channel start')
@@ -174,17 +163,29 @@ class DataChannel(object):
     self.tcp.disconnect()
     self.udp.close()
 
-  def on_tcp_connection_made(self):
-    pass
+  #def on_tcp_connected(self):
+  #  pass
 
-  def on_udp_received(self, data, addr):
-    if self.tcp.state != 'connected':
-      print('udp packet ignored because tcp is not connected')
-      return
-    pass
+  #def on_udp_received(self, data, addr):
+  #  if self.tcp.state != 'connected':
+  #    print('udp packet ignored because tcp is not connected')
+  #    return
+  #  pass
 
 
 channel = DataChannel(4900, '127.0.0.1', 4905)
+
+@channel.ee.on('tcp_connected')
+def tcp_connected(transport):
+  msg = fsx_pb2.TcpRequestMessage()
+  msg.msgType = fsx_pb2.TcpRequestMessage.MSG_TYPE_SET_CONFIG
+  msg.setConfigBody.udpPort = 4900
+  msg.setConfigBody.udpToken = channel.udp_token
+  msg.setConfigBody.updateFreq = 10
+  data = msg.SerializeToString()
+  transport.write(data)
+
+
 asyncio.ensure_future(channel.start_async())
 
 loop = asyncio.get_event_loop()
