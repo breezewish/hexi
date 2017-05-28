@@ -13,13 +13,14 @@ namespace HexiInputsFsx
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private bool formClosed = false;
-        private DateTime fsxLastUpdate;
+        private DateTime fsxLastUiUpdate;
+        private DateTime fsxLastFpsUpdate;
         private int fsxOpsSinceLastUpdate = 0;
-        private const int fsxUpdateInterval = 1000 / 40;
+        private const int fsxFpsCollectInterval = 2000;
         private const int fsxUiUpdateInterval = 1000 / 5;
 
         StatusMap statusMap;
-        FsxController fsxController = new FsxController(fsxUpdateInterval);
+        FsxController fsxController = new FsxController();
         SystemTimer timerFsxConnect = new SystemTimer();
         SystemTimer timerHexiConnect = new SystemTimer();
 
@@ -44,14 +45,21 @@ namespace HexiInputsFsx
         private void FsxController_FsxiValueBagUpdated(object sender, EventArgs e)
         {
             fsxOpsSinceLastUpdate++;
-
-            if (DateTime.Now.Subtract(fsxLastUpdate).TotalMilliseconds > fsxUiUpdateInterval)
+            
+            if (DateTime.Now.Subtract(fsxLastUiUpdate).TotalMilliseconds > fsxUiUpdateInterval)
             {
-                statusMap[StatusMapTypes.FSX_REFRESH_RATE] = fsxOpsSinceLastUpdate / (fsxUiUpdateInterval / 1000.0d);
                 statusMap.Sync(fsxController.ValueBag);
-                fsxLastUpdate = DateTime.Now;
+                fsxLastUiUpdate = DateTime.Now;
+            }
+
+            if (DateTime.Now.Subtract(fsxLastFpsUpdate).TotalMilliseconds > fsxFpsCollectInterval)
+            {
+                statusMap[StatusMapTypes.FSX_REFRESH_RATE] = fsxOpsSinceLastUpdate / (fsxFpsCollectInterval / 1000.0d);
+                statusMap.Sync(fsxController.ValueBag);
+                fsxLastFpsUpdate = DateTime.Now;
                 fsxOpsSinceLastUpdate = 0;
             }
+            
         }
 
         private void FsxController_FsxiDisconnected(object sender, EventArgs e)

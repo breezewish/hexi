@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Timers;
+using System.Threading;
+
 using FSUIPC;
 
 namespace HexiInputsFsx
@@ -9,10 +10,11 @@ namespace HexiInputsFsx
         public event EventHandler FsxiConnected;
         public event EventHandler FsxiDisconnected;
         public event EventHandler FsxiValueBagUpdated;
-        public int UpdateInterval { get; private set; }
         public FsxValueBag ValueBag { get; private set; } = new FsxValueBag();
 
-        private Timer updateTimer = new Timer();
+        private Thread updateThread;
+        public static int UpdateInterval { get; } = 1000 / 100;
+
         private Offset<Int16> ipcPaused = new Offset<Int16>(0x0264);
         private Offset<Int32> ipcTrueAirSpeed = new Offset<Int32>(0x02BC);
         private Offset<Double> ipcLat = new Offset<Double>(0x6010);
@@ -30,14 +32,25 @@ namespace HexiInputsFsx
         private Offset<Double> ipcRollAcceleration = new Offset<Double>(0x3080);
         private Offset<Double> ipcYawAcceleration = new Offset<Double>(0x3088);
 
-        public FsxController(int _updateInterval)
+        private static void ThreadFunc(Object obj)
         {
-            UpdateInterval = _updateInterval;
-            updateTimer.Interval = _updateInterval;
-            updateTimer.Elapsed += UpdateTimer_Elapsed;
+            FsxController controller = (FsxController)obj;
+            DateTime beginTime, endTime;
+            double elapsedMs;
+            while (true)
+            {
+                beginTime = DateTime.Now;
+                controller.threadTick();
+                endTime = DateTime.Now;
+                elapsedMs = (endTime - beginTime).TotalMilliseconds;
+                if (elapsedMs < UpdateInterval && elapsedMs >= 0)
+                {
+                    Thread.Sleep(UpdateInterval - (int)elapsedMs);
+                }
+            }
         }
 
-        private void UpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void threadTick()
         {
             if (!ValueBag.Connected)
             {
@@ -87,10 +100,16 @@ namespace HexiInputsFsx
                 ValueBag.Connected = true;
                 FsxiConnected?.Invoke(this, EventArgs.Empty);
                 FsxiValueBagUpdated?.Invoke(this, EventArgs.Empty);
-                updateTimer.Start();
+
+                updateThread = new Thread(new ParameterizedThreadStart(ThreadFunc));
+                updateThread.Start(this);
                 return true;
             }
             catch (FSUIPCException)
+            {
+                return false;
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -105,7 +124,8 @@ namespace HexiInputsFsx
             try
             {
                 FSUIPCConnection.Close();
-                updateTimer.Stop();
+                updateThread.Abort();
+                updateThread = null;
                 ValueBag.Clear();
                 ValueBag.Connected = false;
                 FsxiDisconnected?.Invoke(this, EventArgs.Empty);
