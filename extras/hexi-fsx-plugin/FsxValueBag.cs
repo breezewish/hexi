@@ -18,12 +18,9 @@ namespace HexiInputsFsx
         public double XAcceleration { get; set; } // in ft/sec2
         public double YAcceleration { get; set; }
         public double ZAcceleration { get; set; }
-        public double Pitch { get; set; } // in degree
-        public double Bank { get; set; }
-        public double Heading { get; set; }
-        public double PitchAcceleration { get; set; } // in degree/sec2
-        public double RollAcceleration { get; set; }
-        public double YawAcceleration { get; set; }
+        public double PitchVelocity { get; set; } // in degree/sec2
+        public double RollVelocity { get; set; }
+        public double YawVelocity { get; set; }
 
         public FsxValueBag()
         {
@@ -43,12 +40,9 @@ namespace HexiInputsFsx
             XAcceleration = 0.0d;
             YAcceleration = 0.0d;
             ZAcceleration = 0.0d;
-            Pitch = 0.0d;
-            Bank = 0.0d;
-            Heading = 0.0d;
-            PitchAcceleration = 0.0d;
-            RollAcceleration = 0.0d;
-            YawAcceleration = 0.0d;
+            PitchVelocity = 0.0d;
+            RollVelocity = 0.0d;
+            YawVelocity = 0.0d;
         }
     }
 }

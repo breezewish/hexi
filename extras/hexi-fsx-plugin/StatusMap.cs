@@ -22,12 +22,9 @@ namespace HexiInputsFsx
         FSX_X_ACC,
         FSX_Y_ACC,
         FSX_Z_ACC,
-        FSX_PITCH,
-        FSX_BANK,
-        FSX_HEADING,
-        FSX_PITCH_ACC,
-        FSX_BANK_ACC,
-        FSX_HEADING_ACC,
+        FSX_PITCH_VEL,
+        FSX_ROLL_VEL,
+        FSX_YAW_VEL,
     }
 
     public class StatusMap
@@ -140,43 +137,22 @@ namespace HexiInputsFsx
             });
             AddProperty(new StatusMapItem
             {
-                Id = StatusMapTypes.FSX_PITCH,
-                DisplayName = "Pitch (degree)",
+                Id = StatusMapTypes.FSX_PITCH_VEL,
+                DisplayName = "Pitch Velocity (degree/sec)",
                 Value = 0.0d,
                 ValueToString = StatusMapItem.DoubleValueToString,
             });
             AddProperty(new StatusMapItem
             {
-                Id = StatusMapTypes.FSX_BANK,
-                DisplayName = "Bank (Roll) (degree)",
+                Id = StatusMapTypes.FSX_ROLL_VEL,
+                DisplayName = "Roll Velocity (degree/sec)",
                 Value = 0.0d,
                 ValueToString = StatusMapItem.DoubleValueToString,
             });
             AddProperty(new StatusMapItem
             {
-                Id = StatusMapTypes.FSX_HEADING,
-                DisplayName = "Heading (Yaw) (degree)",
-                Value = 0.0d,
-                ValueToString = StatusMapItem.DoubleValueToString,
-            });
-            AddProperty(new StatusMapItem
-            {
-                Id = StatusMapTypes.FSX_PITCH_ACC,
-                DisplayName = "Pitch Acceleration (degree/sec2)",
-                Value = 0.0d,
-                ValueToString = StatusMapItem.DoubleValueToString,
-            });
-            AddProperty(new StatusMapItem
-            {
-                Id = StatusMapTypes.FSX_BANK_ACC,
-                DisplayName = "Bank (Roll) Acceleration (degree/sec2)",
-                Value = 0.0d,
-                ValueToString = StatusMapItem.DoubleValueToString,
-            });
-            AddProperty(new StatusMapItem
-            {
-                Id = StatusMapTypes.FSX_HEADING_ACC,
-                DisplayName = "Heading (Yaw) Acceleration (degree/sec2)",
+                Id = StatusMapTypes.FSX_YAW_VEL,
+                DisplayName = "Yaw Velocity (degree/sec)",
                 Value = 0.0d,
                 ValueToString = StatusMapItem.DoubleValueToString,
             });
@@ -264,12 +240,9 @@ namespace HexiInputsFsx
             SetValue(StatusMapTypes.FSX_X_ACC, fsxValueBag.XAcceleration);
             SetValue(StatusMapTypes.FSX_Y_ACC, fsxValueBag.YAcceleration);
             SetValue(StatusMapTypes.FSX_Z_ACC, fsxValueBag.ZAcceleration);
-            SetValue(StatusMapTypes.FSX_PITCH, fsxValueBag.Pitch);
-            SetValue(StatusMapTypes.FSX_BANK, fsxValueBag.Bank);
-            SetValue(StatusMapTypes.FSX_HEADING, fsxValueBag.Heading);
-            SetValue(StatusMapTypes.FSX_PITCH_ACC, fsxValueBag.PitchAcceleration);
-            SetValue(StatusMapTypes.FSX_BANK_ACC, fsxValueBag.RollAcceleration);
-            SetValue(StatusMapTypes.FSX_HEADING_ACC, fsxValueBag.YawAcceleration);
+            SetValue(StatusMapTypes.FSX_PITCH_VEL, fsxValueBag.PitchVelocity);
+            SetValue(StatusMapTypes.FSX_ROLL_VEL, fsxValueBag.RollVelocity);
+            SetValue(StatusMapTypes.FSX_YAW_VEL, fsxValueBag.YawVelocity);
             RenderAllItems();
         }
     }

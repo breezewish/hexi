@@ -25,12 +25,9 @@ namespace HexiInputsFsx
         private Offset<Double> ipcXAcceleration = new Offset<Double>(0x3060);
         private Offset<Double> ipcYAcceleration = new Offset<Double>(0x3068);
         private Offset<Double> ipcZAcceleration = new Offset<Double>(0x3070);
-        private Offset<Int32> ipcPitch = new Offset<Int32>(0x0578);
-        private Offset<Int32> ipcBank = new Offset<Int32>(0x057C);
-        private Offset<Int32> ipcHeading = new Offset<Int32>(0x0580);
-        private Offset<Double> ipcPitchAcceleration = new Offset<Double>(0x3078);
-        private Offset<Double> ipcRollAcceleration = new Offset<Double>(0x3080);
-        private Offset<Double> ipcYawAcceleration = new Offset<Double>(0x3088);
+        private Offset<Double> ipcPitchVelocity = new Offset<Double>(0x30A8);
+        private Offset<Double> ipcRollVelocity = new Offset<Double>(0x30B0);
+        private Offset<Double> ipcYawVelocity = new Offset<Double>(0x30B8);
 
         private static void ThreadFunc(Object obj)
         {
@@ -69,12 +66,9 @@ namespace HexiInputsFsx
                 ValueBag.XAcceleration = ipcXAcceleration.Value;
                 ValueBag.YAcceleration = ipcYAcceleration.Value;
                 ValueBag.ZAcceleration = ipcZAcceleration.Value;
-                ValueBag.Pitch = ipcPitch.Value * 360d / (65536d * 65536d);
-                ValueBag.Bank = ipcBank.Value * 360d / (65536d * 65536d);
-                ValueBag.Heading = ipcHeading.Value * 360d / (65536d * 65536d);
-                ValueBag.PitchAcceleration = ipcPitchAcceleration.Value * 180d / Math.PI;
-                ValueBag.RollAcceleration = ipcRollAcceleration.Value * 180d / Math.PI;
-                ValueBag.YawAcceleration = ipcYawAcceleration.Value * 180d / Math.PI;
+                ValueBag.PitchVelocity = ipcPitchVelocity.Value * 180d / Math.PI;
+                ValueBag.RollVelocity = ipcRollVelocity.Value * 180d / Math.PI;
+                ValueBag.YawVelocity = ipcYawVelocity.Value * 180d / Math.PI;
                 FsxiValueBagUpdated?.Invoke(this, EventArgs.Empty);
             }
             catch (FSUIPCException ex) when (ex.FSUIPCErrorCode == FSUIPCError.FSUIPC_ERR_SENDMSG)
