@@ -18,11 +18,17 @@ namespace HexiInputsFsx
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static int ListenPort = 16314;
-
-        public event EventHandler HexiConnected;
-        public event EventHandler HexiDisconnected;
-        public event EventHandler HexiValueBagUpdated;
+        
         public HexiValueBag ValueBag { get; private set; } = new HexiValueBag();
+        
+        private Thread serverThread;
+        private CancellationTokenSource serverCancelTokenSource;
+
+        private static void ThreadFunc(Object obj)
+        {
+            HexiController controller = (HexiController)obj;
+            controller.RunServer().Wait();
+        }
 
         public void Start()
         {
@@ -30,6 +36,10 @@ namespace HexiInputsFsx
             {
                 return;
             }
+            serverThread = new Thread(new ParameterizedThreadStart(ThreadFunc));
+            serverThread.Start(this);
+            ValueBag.ServerStarted = true;
+            log.Info("Hexi Server Listener started");
         }
 
         public void Stop()
@@ -38,36 +48,65 @@ namespace HexiInputsFsx
             {
                 return;
             }
-
+            StopServer();
+            serverThread.Abort();
+            serverThread = null;
+            ValueBag.ServerStarted = false;
+            log.Info("Hexi Server Listener stopped");
         }
 
         private static ManualResetEvent allDone = new ManualResetEvent(false);
 
-        private async void RunServer()
+        private async Task RunServer()
         {
+            serverCancelTokenSource = new CancellationTokenSource();
             TcpListener listener = new TcpListener(new IPAddress(new byte[] { 0, 0, 0, 0 }), ListenPort);
             listener.Start();
-            while (true)
+            try
             {
-                try
+                while (true)
                 {
-                    TcpClient tcpClient = await listener.AcceptTcpClientAsync();
-                    HandleTcpClientConnectionAsync(tcpClient);
+                    try
+                    {
+                        TcpClient tcpClient = await Task.Run(() => listener.AcceptTcpClientAsync(), serverCancelTokenSource.Token);
+                        HandleTcpClientConnectionAsync(tcpClient, serverCancelTokenSource.Token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
+            }
+            catch (OperationCanceledException)
+            {
             }
         }
 
-        private async void HandleTcpClientConnectionAsync(TcpClient tcpClient)
+        private void StopServer()
+        {
+            serverCancelTokenSource.Cancel();
+        }
+
+        private async void HandleTcpClientConnectionAsync(TcpClient tcpClient, CancellationToken token)
         {
             Console.WriteLine("Remote connection from {0}", tcpClient.Client.RemoteEndPoint.ToString());
+
+            HexiUdpClient client = new HexiUdpClient(((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.MapToIPv4().ToString());
+
+            ValueBag.HexiClientCount++;
+            using (await ValueBag.HexiClientsLock.WriterLockAsync())
+            {
+                ValueBag.HexiClients.Add(client);
+            }
+
             try
             {
                 var bufferReqSize = new byte[4];
-                var bufferReqBody = new byte[4096];
+                byte[] bufferReqBody;
                 byte[] bufferResSize;
                 byte[] bufferResBody;
                 NetworkStream networkStream = tcpClient.GetStream();
@@ -75,14 +114,11 @@ namespace HexiInputsFsx
                 while (true)
                 {
                     // Read size
-                    await networkStream.ReadAsync(bufferReqSize, 0, 4);
-                    if (!BitConverter.IsLittleEndian)
-                    {
-                        Array.Reverse(bufferReqSize);
-                    }
+                    await networkStream.ReadAsync(bufferReqSize, 0, 4, token);
                     Int32 reqSize = BitConverter.ToInt32(bufferReqSize, 0);
 
                     // Read body
+                    bufferReqBody = new byte[reqSize];
                     await networkStream.ReadAsync(bufferReqBody, 0, reqSize);
                     TcpRequestMessage request = TcpRequestMessage.Parser.ParseFrom(bufferReqBody);
 
@@ -93,8 +129,19 @@ namespace HexiInputsFsx
                             responseSuccess = true;
                             break;
                         case TcpRequestMessage.Types.MsgType.SetConfig:
+                            client.SetTransmissionTarget(request.SetConfigBody.UdpPort, request.SetConfigBody.UdpToken);
+                            responseSuccess = true;
                             break;
                         case TcpRequestMessage.Types.MsgType.TestConnection:
+                            responseSuccess = true;
+                            break;
+                        case TcpRequestMessage.Types.MsgType.StartTransmission:
+                            client.SimulationStarted = true;
+                            responseSuccess = true;
+                            break;
+                        case TcpRequestMessage.Types.MsgType.StopTransmission:
+                            client.SimulationStarted = false;
+                            responseSuccess = false;
                             break;
                     }
                     
@@ -107,15 +154,55 @@ namespace HexiInputsFsx
                     // Write size and body
                     bufferResBody = response.ToByteArray();
                     bufferResSize = BitConverter.GetBytes(bufferResBody.Length);
-                    await networkStream.WriteAsync(bufferResSize, 0, 4);
-                    await networkStream.WriteAsync(bufferResBody, 0, bufferResBody.Length);
+                    await networkStream.WriteAsync(bufferResSize, 0, 4, token);
+                    await networkStream.WriteAsync(bufferResBody, 0, bufferResBody.Length, token);
                 }
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception)
+            {
+            }
+            finally
             {
                 if (tcpClient.Connected)
                 {
                     tcpClient.Close();
+                }
+                client.Close();
+                ValueBag.HexiClientCount--;
+                using (await ValueBag.HexiClientsLock.WriterLockAsync())
+                {
+                    ValueBag.HexiClients.Remove(client);
+                }
+            }
+        }
+
+        public void BroadcastFsxData(FsxValueBag valueBag)
+        {
+            UdpResponseMessage msg = new UdpResponseMessage
+            {
+                MsgType = UdpResponseMessage.Types.MsgType.TransmissionData,
+                TransmissionDataBody = new UdpResponseMessage.Types.TransmissionDataBody
+                {
+                    XAcceleration = valueBag.XAcceleration,
+                    YAcceleration = valueBag.YAcceleration,
+                    ZAcceleration = valueBag.ZAcceleration,
+                    PitchVelocity = valueBag.PitchVelocity,
+                    RollVelocity = valueBag.RollVelocity,
+                    YawVelocity = valueBag.YawVelocity,
+                },
+            };
+            using (ValueBag.HexiClientsLock.WriterLock())
+            {
+                foreach (var client in ValueBag.HexiClients)
+                {
+                    if (client.Valid && client.SimulationStarted)
+                    {
+                        client.SendMessage(msg);
+                    }
                 }
             }
         }

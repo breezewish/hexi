@@ -4,13 +4,16 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
+using Nito.AsyncEx;
 
 namespace HexiInputsFsx
 {
     public enum StatusMapTypes
     {
         FSX_CONNECTED,
-        HEXI_CONNECTED,
+        HEXI_CONNECTED_CLIENTS,
+        HEXI_CONNECTED_CLIENTS_ADDRESS,
         FSX_REFRESH_RATE,
         FSX_PAUSED,
         FSX_AIR_SPEED,
@@ -38,7 +41,7 @@ namespace HexiInputsFsx
             map.Add(item.Id, item);
 
             var li = new ListViewItem(item.DisplayName);
-            li.SubItems.Add(item.ValueToString(item.Value));
+            li.SubItems.Add(item.ValueToString(item.Value, item.ValueLocker));
             li.SubItems.Add(item.Hint);
             listView.Items.Add(li);
             liMap.Add(item.Id, li);
@@ -56,9 +59,16 @@ namespace HexiInputsFsx
             });
             AddProperty(new StatusMapItem
             {
-                Id = StatusMapTypes.HEXI_CONNECTED,
-                DisplayName = "Hexi Connected",
-                Value = false,
+                Id = StatusMapTypes.HEXI_CONNECTED_CLIENTS,
+                DisplayName = "Hexi Connected Instances",
+                Value = 0,
+            });
+            AddProperty(new StatusMapItem
+            {
+                Id = StatusMapTypes.HEXI_CONNECTED_CLIENTS_ADDRESS,
+                DisplayName = "Hexi Instance Detail",
+                Value = null,
+                ValueToString = HexiValueBag.HexiClientsToString,
             });
             AddProperty(new StatusMapItem
             {
@@ -117,21 +127,21 @@ namespace HexiInputsFsx
             AddProperty(new StatusMapItem
             {
                 Id = StatusMapTypes.FSX_X_ACC,
-                DisplayName = "X (Lateral) Acceleration (ft/sec2)",
+                DisplayName = "X (Lateral) Acceleration (ft/sec^2)",
                 Value = 0.0d,
                 ValueToString = StatusMapItem.DoubleValueToString,
             });
             AddProperty(new StatusMapItem
             {
                 Id = StatusMapTypes.FSX_Y_ACC,
-                DisplayName = "Y (Vertical) Acceleration (ft/sec2)",
+                DisplayName = "Y (Vertical) Acceleration (ft/sec^2)",
                 Value = 0.0d,
                 ValueToString = StatusMapItem.DoubleValueToString,
             });
             AddProperty(new StatusMapItem
             {
                 Id = StatusMapTypes.FSX_Z_ACC,
-                DisplayName = "Z (Longitudinal) Acceleration (ft/sec2)",
+                DisplayName = "Z (Longitudinal) Acceleration (ft/sec^2)",
                 Value = 0.0d,
                 ValueToString = StatusMapItem.DoubleValueToString,
             });
@@ -158,13 +168,14 @@ namespace HexiInputsFsx
             });
         }
 
-        private void SetValue(StatusMapTypes id, object value)
+        private void SetValue(StatusMapTypes id, object value, AsyncReaderWriterLock locker = null)
         {
             if (!map.ContainsKey(id))
             {
                 throw new InvalidOperationException();
             }
             map[id].Value = value;
+            map[id].ValueLocker = locker;
         }
 
         private object GetValue(StatusMapTypes id)
@@ -183,7 +194,7 @@ namespace HexiInputsFsx
                 throw new InvalidOperationException();
             }
             var item = map[id];
-            return item.ValueToString(item.Value);
+            return item.ValueToString(item.Value, item.ValueLocker);
         }
 
         public object this[StatusMapTypes id]
@@ -243,6 +254,13 @@ namespace HexiInputsFsx
             SetValue(StatusMapTypes.FSX_PITCH_VEL, fsxValueBag.PitchVelocity);
             SetValue(StatusMapTypes.FSX_ROLL_VEL, fsxValueBag.RollVelocity);
             SetValue(StatusMapTypes.FSX_YAW_VEL, fsxValueBag.YawVelocity);
+            RenderAllItems();
+        }
+
+        public void Sync(HexiValueBag hexiValueBag)
+        {
+            SetValue(StatusMapTypes.HEXI_CONNECTED_CLIENTS, hexiValueBag.HexiClientCount);
+            SetValue(StatusMapTypes.HEXI_CONNECTED_CLIENTS_ADDRESS, hexiValueBag.HexiClients, hexiValueBag.HexiClientsLock);
             RenderAllItems();
         }
     }

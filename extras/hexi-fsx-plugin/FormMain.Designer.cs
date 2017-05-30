@@ -44,7 +44,7 @@
             this.listView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView.Location = new System.Drawing.Point(0, 0);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(536, 389);
+            this.listView.Size = new System.Drawing.Size(641, 389);
             this.listView.TabIndex = 0;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
@@ -57,13 +57,13 @@
             // columnValue
             // 
             this.columnValue.Text = "Value";
-            this.columnValue.Width = 100;
+            this.columnValue.Width = 300;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(536, 389);
+            this.ClientSize = new System.Drawing.Size(641, 389);
             this.Controls.Add(this.listView);
             this.Name = "FormMain";
             this.Text = "Hexi FSX";

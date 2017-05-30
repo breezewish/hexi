@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='fsx.proto',
   package='FsxProtocol',
   syntax='proto3',
-  serialized_pb=_b('\n\tfsx.proto\x12\x0b\x46sxProtocol\"\xc2\x04\n\x11TcpRequestMessage\x12\x37\n\x07msgType\x18\x01 \x01(\x0e\x32&.FsxProtocol.TcpRequestMessage.MsgType\x12\x45\n\rsetConfigBody\x18\x02 \x01(\x0b\x32,.FsxProtocol.TcpRequestMessage.SetConfigBodyH\x00\x12;\n\x08pingBody\x18\x03 \x01(\x0b\x32\'.FsxProtocol.TcpRequestMessage.PingBodyH\x00\x12\x43\n\x0ctestConnBody\x18\x04 \x01(\x0b\x32+.FsxProtocol.TcpRequestMessage.TestConnBodyH\x00\x1a\x46\n\rSetConfigBody\x12\x0f\n\x07udpPort\x18\x01 \x01(\x05\x12\x10\n\x08udpToken\x18\x02 \x01(\x05\x12\x12\n\nupdateFreq\x18\x03 \x01(\x05\x1a\x1d\n\x08PingBody\x12\x11\n\ttimeStamp\x18\x01 \x01(\x05\x1a\"\n\x0cTestConnBody\x12\x12\n\nmagicToken\x18\x01 \x01(\x05\"\x94\x01\n\x07MsgType\x12\x17\n\x13MSG_TYPE_SET_CONFIG\x10\x00\x12\x11\n\rMSG_TYPE_PING\x10\x01\x12\x1c\n\x18MSG_TYPE_TEST_CONNECTION\x10\x02\x12\x1f\n\x1bMSG_TYPE_START_TRANSMISSION\x10\x03\x12\x1e\n\x1aMSG_TYPE_STOP_TRANSMISSION\x10\x04\x42\t\n\x07msgBody\"8\n\x12TcpResponseMessage\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\ttimeStamp\x18\x02 \x01(\x05\"\xa2\x04\n\x12UdpResponseMessage\x12\x38\n\x07msgType\x18\x01 \x01(\x0e\x32\'.FsxProtocol.UdpResponseMessage.MsgType\x12T\n\x14testConnCallbackBody\x18\x02 \x01(\x0b\x32\x34.FsxProtocol.UdpResponseMessage.TestConnCallbackBodyH\x00\x12T\n\x14transmissionDataBody\x18\x03 \x01(\x0b\x32\x34.FsxProtocol.UdpResponseMessage.TransmissionDataBodyH\x00\x1a*\n\x14TestConnCallbackBody\x12\x12\n\nmagicToken\x18\x01 \x01(\x05\x1a\x9c\x01\n\x14TransmissionDataBody\x12\x15\n\rxAcceleration\x18\x01 \x01(\x01\x12\x15\n\ryAcceleration\x18\x02 \x01(\x01\x12\x15\n\rzAcceleration\x18\x03 \x01(\x01\x12\x15\n\rpitchVelocity\x18\x04 \x01(\x01\x12\x13\n\x0browVelocity\x18\x05 \x01(\x01\x12\x13\n\x0byawVelocity\x18\x06 \x01(\x01\"P\n\x07MsgType\x12%\n!MSG_TYPE_TEST_CONNECTION_CALLBACK\x10\x00\x12\x1e\n\x1aMSG_TYPE_TRANSMISSION_DATA\x10\x01\x42\t\n\x07msgBodyb\x06proto3')
+  serialized_pb=_b('\n\tfsx.proto\x12\x0b\x46sxProtocol\"\xae\x04\n\x11TcpRequestMessage\x12\x37\n\x07msgType\x18\x01 \x01(\x0e\x32&.FsxProtocol.TcpRequestMessage.MsgType\x12\x45\n\rsetConfigBody\x18\x02 \x01(\x0b\x32,.FsxProtocol.TcpRequestMessage.SetConfigBodyH\x00\x12;\n\x08pingBody\x18\x03 \x01(\x0b\x32\'.FsxProtocol.TcpRequestMessage.PingBodyH\x00\x12\x43\n\x0ctestConnBody\x18\x04 \x01(\x0b\x32+.FsxProtocol.TcpRequestMessage.TestConnBodyH\x00\x1a\x32\n\rSetConfigBody\x12\x0f\n\x07udpPort\x18\x01 \x01(\x05\x12\x10\n\x08udpToken\x18\x02 \x01(\x05\x1a\x1d\n\x08PingBody\x12\x11\n\ttimeStamp\x18\x01 \x01(\x05\x1a\"\n\x0cTestConnBody\x12\x12\n\nmagicToken\x18\x01 \x01(\x05\"\x94\x01\n\x07MsgType\x12\x17\n\x13MSG_TYPE_SET_CONFIG\x10\x00\x12\x11\n\rMSG_TYPE_PING\x10\x01\x12\x1c\n\x18MSG_TYPE_TEST_CONNECTION\x10\x02\x12\x1f\n\x1bMSG_TYPE_START_TRANSMISSION\x10\x03\x12\x1e\n\x1aMSG_TYPE_STOP_TRANSMISSION\x10\x04\x42\t\n\x07msgBody\"8\n\x12TcpResponseMessage\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x11\n\ttimeStamp\x18\x02 \x01(\x05\"\xc8\x04\n\x12UdpResponseMessage\x12\x38\n\x07msgType\x18\x01 \x01(\x0e\x32\'.FsxProtocol.UdpResponseMessage.MsgType\x12\x14\n\x0cserialNumber\x18\x02 \x01(\x05\x12\r\n\x05token\x18\x03 \x01(\x05\x12T\n\x14testConnCallbackBody\x18\x04 \x01(\x0b\x32\x34.FsxProtocol.UdpResponseMessage.TestConnCallbackBodyH\x00\x12T\n\x14transmissionDataBody\x18\x05 \x01(\x0b\x32\x34.FsxProtocol.UdpResponseMessage.TransmissionDataBodyH\x00\x1a*\n\x14TestConnCallbackBody\x12\x12\n\nmagicToken\x18\x01 \x01(\x05\x1a\x9d\x01\n\x14TransmissionDataBody\x12\x15\n\rxAcceleration\x18\x01 \x01(\x01\x12\x15\n\ryAcceleration\x18\x02 \x01(\x01\x12\x15\n\rzAcceleration\x18\x03 \x01(\x01\x12\x15\n\rpitchVelocity\x18\x04 \x01(\x01\x12\x14\n\x0crollVelocity\x18\x05 \x01(\x01\x12\x13\n\x0byawVelocity\x18\x06 \x01(\x01\"P\n\x07MsgType\x12%\n!MSG_TYPE_TEST_CONNECTION_CALLBACK\x10\x00\x12\x1e\n\x1aMSG_TYPE_TRANSMISSION_DATA\x10\x01\x42\t\n\x07msgBodyb\x06proto3')
 )
 
 
@@ -53,8 +53,8 @@ _TCPREQUESTMESSAGE_MSGTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=446,
-  serialized_end=594,
+  serialized_start=426,
+  serialized_end=574,
 )
 _sym_db.RegisterEnumDescriptor(_TCPREQUESTMESSAGE_MSGTYPE)
 
@@ -75,8 +75,8 @@ _UDPRESPONSEMESSAGE_MSGTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1121,
-  serialized_end=1201,
+  serialized_start=1139,
+  serialized_end=1219,
 )
 _sym_db.RegisterEnumDescriptor(_UDPRESPONSEMESSAGE_MSGTYPE)
 
@@ -102,13 +102,6 @@ _TCPREQUESTMESSAGE_SETCONFIGBODY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='updateFreq', full_name='FsxProtocol.TcpRequestMessage.SetConfigBody.updateFreq', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -122,7 +115,7 @@ _TCPREQUESTMESSAGE_SETCONFIGBODY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=306,
-  serialized_end=376,
+  serialized_end=356,
 )
 
 _TCPREQUESTMESSAGE_PINGBODY = _descriptor.Descriptor(
@@ -151,8 +144,8 @@ _TCPREQUESTMESSAGE_PINGBODY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=378,
-  serialized_end=407,
+  serialized_start=358,
+  serialized_end=387,
 )
 
 _TCPREQUESTMESSAGE_TESTCONNBODY = _descriptor.Descriptor(
@@ -181,8 +174,8 @@ _TCPREQUESTMESSAGE_TESTCONNBODY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=409,
-  serialized_end=443,
+  serialized_start=389,
+  serialized_end=423,
 )
 
 _TCPREQUESTMESSAGE = _descriptor.Descriptor(
@@ -237,7 +230,7 @@ _TCPREQUESTMESSAGE = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=27,
-  serialized_end=605,
+  serialized_end=585,
 )
 
 
@@ -274,8 +267,8 @@ _TCPRESPONSEMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=607,
-  serialized_end=663,
+  serialized_start=587,
+  serialized_end=643,
 )
 
 
@@ -305,8 +298,8 @@ _UDPRESPONSEMESSAGE_TESTCONNCALLBACKBODY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=918,
-  serialized_end=960,
+  serialized_start=935,
+  serialized_end=977,
 )
 
 _UDPRESPONSEMESSAGE_TRANSMISSIONDATABODY = _descriptor.Descriptor(
@@ -345,7 +338,7 @@ _UDPRESPONSEMESSAGE_TRANSMISSIONDATABODY = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='rowVelocity', full_name='FsxProtocol.UdpResponseMessage.TransmissionDataBody.rowVelocity', index=4,
+      name='rollVelocity', full_name='FsxProtocol.UdpResponseMessage.TransmissionDataBody.rollVelocity', index=4,
       number=5, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -370,8 +363,8 @@ _UDPRESPONSEMESSAGE_TRANSMISSIONDATABODY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=963,
-  serialized_end=1119,
+  serialized_start=980,
+  serialized_end=1137,
 )
 
 _UDPRESPONSEMESSAGE = _descriptor.Descriptor(
@@ -389,15 +382,29 @@ _UDPRESPONSEMESSAGE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='testConnCallbackBody', full_name='FsxProtocol.UdpResponseMessage.testConnCallbackBody', index=1,
-      number=2, type=11, cpp_type=10, label=1,
+      name='serialNumber', full_name='FsxProtocol.UdpResponseMessage.serialNumber', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='token', full_name='FsxProtocol.UdpResponseMessage.token', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='testConnCallbackBody', full_name='FsxProtocol.UdpResponseMessage.testConnCallbackBody', index=3,
+      number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='transmissionDataBody', full_name='FsxProtocol.UdpResponseMessage.transmissionDataBody', index=2,
-      number=3, type=11, cpp_type=10, label=1,
+      name='transmissionDataBody', full_name='FsxProtocol.UdpResponseMessage.transmissionDataBody', index=4,
+      number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -418,8 +425,8 @@ _UDPRESPONSEMESSAGE = _descriptor.Descriptor(
       name='msgBody', full_name='FsxProtocol.UdpResponseMessage.msgBody',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=666,
-  serialized_end=1212,
+  serialized_start=646,
+  serialized_end=1230,
 )
 
 _TCPREQUESTMESSAGE_SETCONFIGBODY.containing_type = _TCPREQUESTMESSAGE

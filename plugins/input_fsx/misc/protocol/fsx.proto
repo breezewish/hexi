@@ -14,7 +14,6 @@ message TcpRequestMessage {
   message SetConfigBody {
     int32 udpPort = 1;
     int32 udpToken = 2;
-    int32 updateFreq = 3;
   }
 
   message PingBody {
@@ -53,13 +52,15 @@ message UdpResponseMessage {
     double yAcceleration = 2;
     double zAcceleration = 3;
     double pitchVelocity = 4;
-    double rowVelocity = 5;
+    double rollVelocity = 5;
     double yawVelocity = 6;
   }
 
   MsgType msgType = 1;
+  int32 serialNumber = 2;
+  int32 token = 3;
   oneof msgBody {
-    TestConnCallbackBody testConnCallbackBody = 2;
-    TransmissionDataBody transmissionDataBody = 3;
+    TestConnCallbackBody testConnCallbackBody = 4;
+    TransmissionDataBody transmissionDataBody = 5;
   }
 }

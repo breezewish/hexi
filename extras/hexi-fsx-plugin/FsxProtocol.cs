@@ -22,43 +22,43 @@ namespace FsxProtocol {
     static FsxReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cglmc3gucHJvdG8SC0ZzeFByb3RvY29sIsIEChFUY3BSZXF1ZXN0TWVzc2Fn",
+            "Cglmc3gucHJvdG8SC0ZzeFByb3RvY29sIq4EChFUY3BSZXF1ZXN0TWVzc2Fn",
             "ZRI3Cgdtc2dUeXBlGAEgASgOMiYuRnN4UHJvdG9jb2wuVGNwUmVxdWVzdE1l",
             "c3NhZ2UuTXNnVHlwZRJFCg1zZXRDb25maWdCb2R5GAIgASgLMiwuRnN4UHJv",
             "dG9jb2wuVGNwUmVxdWVzdE1lc3NhZ2UuU2V0Q29uZmlnQm9keUgAEjsKCHBp",
             "bmdCb2R5GAMgASgLMicuRnN4UHJvdG9jb2wuVGNwUmVxdWVzdE1lc3NhZ2Uu",
             "UGluZ0JvZHlIABJDCgx0ZXN0Q29ubkJvZHkYBCABKAsyKy5Gc3hQcm90b2Nv",
-            "bC5UY3BSZXF1ZXN0TWVzc2FnZS5UZXN0Q29ubkJvZHlIABpGCg1TZXRDb25m",
-            "aWdCb2R5Eg8KB3VkcFBvcnQYASABKAUSEAoIdWRwVG9rZW4YAiABKAUSEgoK",
-            "dXBkYXRlRnJlcRgDIAEoBRodCghQaW5nQm9keRIRCgl0aW1lU3RhbXAYASAB",
-            "KAUaIgoMVGVzdENvbm5Cb2R5EhIKCm1hZ2ljVG9rZW4YASABKAUilAEKB01z",
-            "Z1R5cGUSFwoTTVNHX1RZUEVfU0VUX0NPTkZJRxAAEhEKDU1TR19UWVBFX1BJ",
-            "TkcQARIcChhNU0dfVFlQRV9URVNUX0NPTk5FQ1RJT04QAhIfChtNU0dfVFlQ",
-            "RV9TVEFSVF9UUkFOU01JU1NJT04QAxIeChpNU0dfVFlQRV9TVE9QX1RSQU5T",
-            "TUlTU0lPThAEQgkKB21zZ0JvZHkiOAoSVGNwUmVzcG9uc2VNZXNzYWdlEg8K",
-            "B3N1Y2Nlc3MYASABKAgSEQoJdGltZVN0YW1wGAIgASgFIqIEChJVZHBSZXNw",
-            "b25zZU1lc3NhZ2USOAoHbXNnVHlwZRgBIAEoDjInLkZzeFByb3RvY29sLlVk",
-            "cFJlc3BvbnNlTWVzc2FnZS5Nc2dUeXBlElQKFHRlc3RDb25uQ2FsbGJhY2tC",
-            "b2R5GAIgASgLMjQuRnN4UHJvdG9jb2wuVWRwUmVzcG9uc2VNZXNzYWdlLlRl",
-            "c3RDb25uQ2FsbGJhY2tCb2R5SAASVAoUdHJhbnNtaXNzaW9uRGF0YUJvZHkY",
-            "AyABKAsyNC5Gc3hQcm90b2NvbC5VZHBSZXNwb25zZU1lc3NhZ2UuVHJhbnNt",
-            "aXNzaW9uRGF0YUJvZHlIABoqChRUZXN0Q29ubkNhbGxiYWNrQm9keRISCgpt",
-            "YWdpY1Rva2VuGAEgASgFGpwBChRUcmFuc21pc3Npb25EYXRhQm9keRIVCg14",
-            "QWNjZWxlcmF0aW9uGAEgASgBEhUKDXlBY2NlbGVyYXRpb24YAiABKAESFQoN",
-            "ekFjY2VsZXJhdGlvbhgDIAEoARIVCg1waXRjaFZlbG9jaXR5GAQgASgBEhMK",
-            "C3Jvd1ZlbG9jaXR5GAUgASgBEhMKC3lhd1ZlbG9jaXR5GAYgASgBIlAKB01z",
-            "Z1R5cGUSJQohTVNHX1RZUEVfVEVTVF9DT05ORUNUSU9OX0NBTExCQUNLEAAS",
-            "HgoaTVNHX1RZUEVfVFJBTlNNSVNTSU9OX0RBVEEQAUIJCgdtc2dCb2R5YgZw",
-            "cm90bzM="));
+            "bC5UY3BSZXF1ZXN0TWVzc2FnZS5UZXN0Q29ubkJvZHlIABoyCg1TZXRDb25m",
+            "aWdCb2R5Eg8KB3VkcFBvcnQYASABKAUSEAoIdWRwVG9rZW4YAiABKAUaHQoI",
+            "UGluZ0JvZHkSEQoJdGltZVN0YW1wGAEgASgFGiIKDFRlc3RDb25uQm9keRIS",
+            "CgptYWdpY1Rva2VuGAEgASgFIpQBCgdNc2dUeXBlEhcKE01TR19UWVBFX1NF",
+            "VF9DT05GSUcQABIRCg1NU0dfVFlQRV9QSU5HEAESHAoYTVNHX1RZUEVfVEVT",
+            "VF9DT05ORUNUSU9OEAISHwobTVNHX1RZUEVfU1RBUlRfVFJBTlNNSVNTSU9O",
+            "EAMSHgoaTVNHX1RZUEVfU1RPUF9UUkFOU01JU1NJT04QBEIJCgdtc2dCb2R5",
+            "IjgKElRjcFJlc3BvbnNlTWVzc2FnZRIPCgdzdWNjZXNzGAEgASgIEhEKCXRp",
+            "bWVTdGFtcBgCIAEoBSLIBAoSVWRwUmVzcG9uc2VNZXNzYWdlEjgKB21zZ1R5",
+            "cGUYASABKA4yJy5Gc3hQcm90b2NvbC5VZHBSZXNwb25zZU1lc3NhZ2UuTXNn",
+            "VHlwZRIUCgxzZXJpYWxOdW1iZXIYAiABKAUSDQoFdG9rZW4YAyABKAUSVAoU",
+            "dGVzdENvbm5DYWxsYmFja0JvZHkYBCABKAsyNC5Gc3hQcm90b2NvbC5VZHBS",
+            "ZXNwb25zZU1lc3NhZ2UuVGVzdENvbm5DYWxsYmFja0JvZHlIABJUChR0cmFu",
+            "c21pc3Npb25EYXRhQm9keRgFIAEoCzI0LkZzeFByb3RvY29sLlVkcFJlc3Bv",
+            "bnNlTWVzc2FnZS5UcmFuc21pc3Npb25EYXRhQm9keUgAGioKFFRlc3RDb25u",
+            "Q2FsbGJhY2tCb2R5EhIKCm1hZ2ljVG9rZW4YASABKAUanQEKFFRyYW5zbWlz",
+            "c2lvbkRhdGFCb2R5EhUKDXhBY2NlbGVyYXRpb24YASABKAESFQoNeUFjY2Vs",
+            "ZXJhdGlvbhgCIAEoARIVCg16QWNjZWxlcmF0aW9uGAMgASgBEhUKDXBpdGNo",
+            "VmVsb2NpdHkYBCABKAESFAoMcm9sbFZlbG9jaXR5GAUgASgBEhMKC3lhd1Zl",
+            "bG9jaXR5GAYgASgBIlAKB01zZ1R5cGUSJQohTVNHX1RZUEVfVEVTVF9DT05O",
+            "RUNUSU9OX0NBTExCQUNLEAASHgoaTVNHX1RZUEVfVFJBTlNNSVNTSU9OX0RB",
+            "VEEQAUIJCgdtc2dCb2R5YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.TcpRequestMessage), global::FsxProtocol.TcpRequestMessage.Parser, new[]{ "MsgType", "SetConfigBody", "PingBody", "TestConnBody" }, new[]{ "MsgBody" }, new[]{ typeof(global::FsxProtocol.TcpRequestMessage.Types.MsgType) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.TcpRequestMessage.Types.SetConfigBody), global::FsxProtocol.TcpRequestMessage.Types.SetConfigBody.Parser, new[]{ "UdpPort", "UdpToken", "UpdateFreq" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.TcpRequestMessage), global::FsxProtocol.TcpRequestMessage.Parser, new[]{ "MsgType", "SetConfigBody", "PingBody", "TestConnBody" }, new[]{ "MsgBody" }, new[]{ typeof(global::FsxProtocol.TcpRequestMessage.Types.MsgType) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.TcpRequestMessage.Types.SetConfigBody), global::FsxProtocol.TcpRequestMessage.Types.SetConfigBody.Parser, new[]{ "UdpPort", "UdpToken" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.TcpRequestMessage.Types.PingBody), global::FsxProtocol.TcpRequestMessage.Types.PingBody.Parser, new[]{ "TimeStamp" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.TcpRequestMessage.Types.TestConnBody), global::FsxProtocol.TcpRequestMessage.Types.TestConnBody.Parser, new[]{ "MagicToken" }, null, null, null)}),
             new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.TcpResponseMessage), global::FsxProtocol.TcpResponseMessage.Parser, new[]{ "Success", "TimeStamp" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.UdpResponseMessage), global::FsxProtocol.UdpResponseMessage.Parser, new[]{ "MsgType", "TestConnCallbackBody", "TransmissionDataBody" }, new[]{ "MsgBody" }, new[]{ typeof(global::FsxProtocol.UdpResponseMessage.Types.MsgType) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody), global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody.Parser, new[]{ "MagicToken" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody), global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody.Parser, new[]{ "XAcceleration", "YAcceleration", "ZAcceleration", "PitchVelocity", "RowVelocity", "YawVelocity" }, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.UdpResponseMessage), global::FsxProtocol.UdpResponseMessage.Parser, new[]{ "MsgType", "SerialNumber", "Token", "TestConnCallbackBody", "TransmissionDataBody" }, new[]{ "MsgBody" }, new[]{ typeof(global::FsxProtocol.UdpResponseMessage.Types.MsgType) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody), global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody.Parser, new[]{ "MagicToken" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody), global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody.Parser, new[]{ "XAcceleration", "YAcceleration", "ZAcceleration", "PitchVelocity", "RollVelocity", "YawVelocity" }, null, null, null)})
           }));
     }
     #endregion
@@ -351,7 +351,6 @@ namespace FsxProtocol {
         public SetConfigBody(SetConfigBody other) : this() {
           udpPort_ = other.udpPort_;
           udpToken_ = other.udpToken_;
-          updateFreq_ = other.updateFreq_;
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -381,17 +380,6 @@ namespace FsxProtocol {
           }
         }
 
-        /// <summary>Field number for the "updateFreq" field.</summary>
-        public const int UpdateFreqFieldNumber = 3;
-        private int updateFreq_;
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public int UpdateFreq {
-          get { return updateFreq_; }
-          set {
-            updateFreq_ = value;
-          }
-        }
-
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public override bool Equals(object other) {
           return Equals(other as SetConfigBody);
@@ -407,7 +395,6 @@ namespace FsxProtocol {
           }
           if (UdpPort != other.UdpPort) return false;
           if (UdpToken != other.UdpToken) return false;
-          if (UpdateFreq != other.UpdateFreq) return false;
           return true;
         }
 
@@ -416,7 +403,6 @@ namespace FsxProtocol {
           int hash = 1;
           if (UdpPort != 0) hash ^= UdpPort.GetHashCode();
           if (UdpToken != 0) hash ^= UdpToken.GetHashCode();
-          if (UpdateFreq != 0) hash ^= UpdateFreq.GetHashCode();
           return hash;
         }
 
@@ -435,10 +421,6 @@ namespace FsxProtocol {
             output.WriteRawTag(16);
             output.WriteInt32(UdpToken);
           }
-          if (UpdateFreq != 0) {
-            output.WriteRawTag(24);
-            output.WriteInt32(UpdateFreq);
-          }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -449,9 +431,6 @@ namespace FsxProtocol {
           }
           if (UdpToken != 0) {
             size += 1 + pb::CodedOutputStream.ComputeInt32Size(UdpToken);
-          }
-          if (UpdateFreq != 0) {
-            size += 1 + pb::CodedOutputStream.ComputeInt32Size(UpdateFreq);
           }
           return size;
         }
@@ -466,9 +445,6 @@ namespace FsxProtocol {
           }
           if (other.UdpToken != 0) {
             UdpToken = other.UdpToken;
-          }
-          if (other.UpdateFreq != 0) {
-            UpdateFreq = other.UpdateFreq;
           }
         }
 
@@ -486,10 +462,6 @@ namespace FsxProtocol {
               }
               case 16: {
                 UdpToken = input.ReadInt32();
-                break;
-              }
-              case 24: {
-                UpdateFreq = input.ReadInt32();
                 break;
               }
             }
@@ -907,6 +879,8 @@ namespace FsxProtocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public UdpResponseMessage(UdpResponseMessage other) : this() {
       msgType_ = other.msgType_;
+      serialNumber_ = other.serialNumber_;
+      token_ = other.token_;
       switch (other.MsgBodyCase) {
         case MsgBodyOneofCase.TestConnCallbackBody:
           TestConnCallbackBody = other.TestConnCallbackBody.Clone();
@@ -934,8 +908,30 @@ namespace FsxProtocol {
       }
     }
 
+    /// <summary>Field number for the "serialNumber" field.</summary>
+    public const int SerialNumberFieldNumber = 2;
+    private int serialNumber_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SerialNumber {
+      get { return serialNumber_; }
+      set {
+        serialNumber_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "token" field.</summary>
+    public const int TokenFieldNumber = 3;
+    private int token_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Token {
+      get { return token_; }
+      set {
+        token_ = value;
+      }
+    }
+
     /// <summary>Field number for the "testConnCallbackBody" field.</summary>
-    public const int TestConnCallbackBodyFieldNumber = 2;
+    public const int TestConnCallbackBodyFieldNumber = 4;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody TestConnCallbackBody {
       get { return msgBodyCase_ == MsgBodyOneofCase.TestConnCallbackBody ? (global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody) msgBody_ : null; }
@@ -946,7 +942,7 @@ namespace FsxProtocol {
     }
 
     /// <summary>Field number for the "transmissionDataBody" field.</summary>
-    public const int TransmissionDataBodyFieldNumber = 3;
+    public const int TransmissionDataBodyFieldNumber = 5;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody TransmissionDataBody {
       get { return msgBodyCase_ == MsgBodyOneofCase.TransmissionDataBody ? (global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody) msgBody_ : null; }
@@ -960,8 +956,8 @@ namespace FsxProtocol {
     /// <summary>Enum of possible cases for the "msgBody" oneof.</summary>
     public enum MsgBodyOneofCase {
       None = 0,
-      TestConnCallbackBody = 2,
-      TransmissionDataBody = 3,
+      TestConnCallbackBody = 4,
+      TransmissionDataBody = 5,
     }
     private MsgBodyOneofCase msgBodyCase_ = MsgBodyOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -989,6 +985,8 @@ namespace FsxProtocol {
         return true;
       }
       if (MsgType != other.MsgType) return false;
+      if (SerialNumber != other.SerialNumber) return false;
+      if (Token != other.Token) return false;
       if (!object.Equals(TestConnCallbackBody, other.TestConnCallbackBody)) return false;
       if (!object.Equals(TransmissionDataBody, other.TransmissionDataBody)) return false;
       if (MsgBodyCase != other.MsgBodyCase) return false;
@@ -999,6 +997,8 @@ namespace FsxProtocol {
     public override int GetHashCode() {
       int hash = 1;
       if (MsgType != 0) hash ^= MsgType.GetHashCode();
+      if (SerialNumber != 0) hash ^= SerialNumber.GetHashCode();
+      if (Token != 0) hash ^= Token.GetHashCode();
       if (msgBodyCase_ == MsgBodyOneofCase.TestConnCallbackBody) hash ^= TestConnCallbackBody.GetHashCode();
       if (msgBodyCase_ == MsgBodyOneofCase.TransmissionDataBody) hash ^= TransmissionDataBody.GetHashCode();
       hash ^= (int) msgBodyCase_;
@@ -1016,12 +1016,20 @@ namespace FsxProtocol {
         output.WriteRawTag(8);
         output.WriteEnum((int) MsgType);
       }
+      if (SerialNumber != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SerialNumber);
+      }
+      if (Token != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Token);
+      }
       if (msgBodyCase_ == MsgBodyOneofCase.TestConnCallbackBody) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(34);
         output.WriteMessage(TestConnCallbackBody);
       }
       if (msgBodyCase_ == MsgBodyOneofCase.TransmissionDataBody) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(42);
         output.WriteMessage(TransmissionDataBody);
       }
     }
@@ -1031,6 +1039,12 @@ namespace FsxProtocol {
       int size = 0;
       if (MsgType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) MsgType);
+      }
+      if (SerialNumber != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SerialNumber);
+      }
+      if (Token != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Token);
       }
       if (msgBodyCase_ == MsgBodyOneofCase.TestConnCallbackBody) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(TestConnCallbackBody);
@@ -1048,6 +1062,12 @@ namespace FsxProtocol {
       }
       if (other.MsgType != 0) {
         MsgType = other.MsgType;
+      }
+      if (other.SerialNumber != 0) {
+        SerialNumber = other.SerialNumber;
+      }
+      if (other.Token != 0) {
+        Token = other.Token;
       }
       switch (other.MsgBodyCase) {
         case MsgBodyOneofCase.TestConnCallbackBody:
@@ -1072,7 +1092,15 @@ namespace FsxProtocol {
             msgType_ = (global::FsxProtocol.UdpResponseMessage.Types.MsgType) input.ReadEnum();
             break;
           }
-          case 18: {
+          case 16: {
+            SerialNumber = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Token = input.ReadInt32();
+            break;
+          }
+          case 34: {
             global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody subBuilder = new global::FsxProtocol.UdpResponseMessage.Types.TestConnCallbackBody();
             if (msgBodyCase_ == MsgBodyOneofCase.TestConnCallbackBody) {
               subBuilder.MergeFrom(TestConnCallbackBody);
@@ -1081,7 +1109,7 @@ namespace FsxProtocol {
             TestConnCallbackBody = subBuilder;
             break;
           }
-          case 26: {
+          case 42: {
             global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody subBuilder = new global::FsxProtocol.UdpResponseMessage.Types.TransmissionDataBody();
             if (msgBodyCase_ == MsgBodyOneofCase.TransmissionDataBody) {
               subBuilder.MergeFrom(TransmissionDataBody);
@@ -1248,7 +1276,7 @@ namespace FsxProtocol {
           yAcceleration_ = other.yAcceleration_;
           zAcceleration_ = other.zAcceleration_;
           pitchVelocity_ = other.pitchVelocity_;
-          rowVelocity_ = other.rowVelocity_;
+          rollVelocity_ = other.rollVelocity_;
           yawVelocity_ = other.yawVelocity_;
         }
 
@@ -1301,14 +1329,14 @@ namespace FsxProtocol {
           }
         }
 
-        /// <summary>Field number for the "rowVelocity" field.</summary>
-        public const int RowVelocityFieldNumber = 5;
-        private double rowVelocity_;
+        /// <summary>Field number for the "rollVelocity" field.</summary>
+        public const int RollVelocityFieldNumber = 5;
+        private double rollVelocity_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double RowVelocity {
-          get { return rowVelocity_; }
+        public double RollVelocity {
+          get { return rollVelocity_; }
           set {
-            rowVelocity_ = value;
+            rollVelocity_ = value;
           }
         }
 
@@ -1340,7 +1368,7 @@ namespace FsxProtocol {
           if (YAcceleration != other.YAcceleration) return false;
           if (ZAcceleration != other.ZAcceleration) return false;
           if (PitchVelocity != other.PitchVelocity) return false;
-          if (RowVelocity != other.RowVelocity) return false;
+          if (RollVelocity != other.RollVelocity) return false;
           if (YawVelocity != other.YawVelocity) return false;
           return true;
         }
@@ -1352,7 +1380,7 @@ namespace FsxProtocol {
           if (YAcceleration != 0D) hash ^= YAcceleration.GetHashCode();
           if (ZAcceleration != 0D) hash ^= ZAcceleration.GetHashCode();
           if (PitchVelocity != 0D) hash ^= PitchVelocity.GetHashCode();
-          if (RowVelocity != 0D) hash ^= RowVelocity.GetHashCode();
+          if (RollVelocity != 0D) hash ^= RollVelocity.GetHashCode();
           if (YawVelocity != 0D) hash ^= YawVelocity.GetHashCode();
           return hash;
         }
@@ -1380,9 +1408,9 @@ namespace FsxProtocol {
             output.WriteRawTag(33);
             output.WriteDouble(PitchVelocity);
           }
-          if (RowVelocity != 0D) {
+          if (RollVelocity != 0D) {
             output.WriteRawTag(41);
-            output.WriteDouble(RowVelocity);
+            output.WriteDouble(RollVelocity);
           }
           if (YawVelocity != 0D) {
             output.WriteRawTag(49);
@@ -1405,7 +1433,7 @@ namespace FsxProtocol {
           if (PitchVelocity != 0D) {
             size += 1 + 8;
           }
-          if (RowVelocity != 0D) {
+          if (RollVelocity != 0D) {
             size += 1 + 8;
           }
           if (YawVelocity != 0D) {
@@ -1431,8 +1459,8 @@ namespace FsxProtocol {
           if (other.PitchVelocity != 0D) {
             PitchVelocity = other.PitchVelocity;
           }
-          if (other.RowVelocity != 0D) {
-            RowVelocity = other.RowVelocity;
+          if (other.RollVelocity != 0D) {
+            RollVelocity = other.RollVelocity;
           }
           if (other.YawVelocity != 0D) {
             YawVelocity = other.YawVelocity;
@@ -1464,7 +1492,7 @@ namespace FsxProtocol {
                 break;
               }
               case 41: {
-                RowVelocity = input.ReadDouble();
+                RollVelocity = input.ReadDouble();
                 break;
               }
               case 49: {

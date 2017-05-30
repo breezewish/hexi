@@ -2,6 +2,7 @@
 using System.Timers;
 using System.Windows.Forms;
 using FSUIPC;
+using System.Threading.Tasks;
 
 namespace HexiInputsFsx
 {
@@ -21,8 +22,9 @@ namespace HexiInputsFsx
 
         StatusMap statusMap;
         FsxController fsxController = new FsxController();
+        HexiController hexiController = new HexiController();
+        SystemTimer timerHexiStatusUpdate = new SystemTimer();
         SystemTimer timerFsxConnect = new SystemTimer();
-        SystemTimer timerHexiConnect = new SystemTimer();
 
         public FormMain()
         {
@@ -38,13 +40,22 @@ namespace HexiInputsFsx
             timerFsxConnect.Interval = 1000;
             timerFsxConnect.Elapsed += TimerFsxConnect_Elapsed;
 
-            timerHexiConnect.Interval = 1000;
-            timerHexiConnect.Elapsed += TimerHexiConnect_Elapsed;
+            timerHexiStatusUpdate.Interval = 1000;
+            timerHexiStatusUpdate.Elapsed += TimerHexiStatusUpdate_Elapsed;
+
+            hexiController.Start();
+            this.Text += String.Format(" (Listen: {0})", HexiController.ListenPort);
         }
 
+        private void TimerHexiStatusUpdate_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            statusMap.Sync(hexiController.ValueBag);
+        }
+        
         private void FsxController_FsxiValueBagUpdated(object sender, EventArgs e)
         {
             fsxOpsSinceLastUpdate++;
+            hexiController.BroadcastFsxData(fsxController.ValueBag);
             
             if (DateTime.Now.Subtract(fsxLastUiUpdate).TotalMilliseconds > fsxUiUpdateInterval)
             {
@@ -59,7 +70,6 @@ namespace HexiInputsFsx
                 fsxLastFpsUpdate = DateTime.Now;
                 fsxOpsSinceLastUpdate = 0;
             }
-            
         }
 
         private void FsxController_FsxiDisconnected(object sender, EventArgs e)
@@ -77,11 +87,6 @@ namespace HexiInputsFsx
             timerFsxConnect.Stop();
         }
         
-        private void TimerHexiConnect_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            
-        }
-
         private void TimerFsxConnect_Elapsed(object sender, ElapsedEventArgs e)
         {
             log.Debug("Trying to connect to Fsx FSUIPC");
@@ -91,7 +96,7 @@ namespace HexiInputsFsx
         private void FormMain_Load(object sender, EventArgs e)
         {
             timerFsxConnect.Start();
-            timerHexiConnect.Start();
+            timerHexiStatusUpdate.Start();
         }
 
         private void FormMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -101,8 +106,9 @@ namespace HexiInputsFsx
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            hexiController.Stop();
             timerFsxConnect.Stop();
-            timerHexiConnect.Stop();
+            timerHexiStatusUpdate.Stop();
             formClosed = true;
         }
     }
