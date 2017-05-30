@@ -63,12 +63,16 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="FsxController.cs" />
+    <Compile Include="FsxProtocol.cs" />
     <Compile Include="FsxValueBag.cs" />
+    <Compile Include="HexiController.cs" />
+    <Compile Include="HexiValueBag.cs" />
     <Compile Include="ListViewHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatusMap.cs" />
     <Compile Include="StatusMapItem.cs" />
+    <Compile Include="Utils.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

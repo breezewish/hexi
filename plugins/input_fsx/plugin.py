@@ -3,7 +3,6 @@ import asyncio
 from hexi.plugin.InputPlugin import InputPlugin
 from hexi.service import event
 from plugins.input_fsx.FsxDataUdpServer import FsxDataUdpServer
-from plugins.input_fsx.Timer import periodic
 
 class PluginInputFsx(InputPlugin):
   def __init__(self):
@@ -17,4 +16,3 @@ class PluginInputFsx(InputPlugin):
     loop = asyncio.get_event_loop()
     listen = loop.create_datagram_endpoint(FsxDataUdpServer, local_addr=('0.0.0.0', 4980))
     asyncio.ensure_future(listen)
-    asyncio.ensure_future(periodic())

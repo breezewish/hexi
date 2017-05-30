@@ -7,6 +7,9 @@ namespace HexiInputsFsx
 {
     public class FsxController
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger
+    (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public event EventHandler FsxiConnected;
         public event EventHandler FsxiDisconnected;
         public event EventHandler FsxiValueBagUpdated;
@@ -103,8 +106,9 @@ namespace HexiInputsFsx
             {
                 return false;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                log.Error(e);
                 return false;
             }
         }
