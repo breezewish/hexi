@@ -11,6 +11,7 @@ from hexi.service import web
 
 _logger = logging.getLogger(__name__)
 
+loop = asyncio.get_event_loop()
 pm = PluginManager()
 pluginsById = {}
 pluginsByCategory = {}
@@ -35,7 +36,6 @@ def init():
   pm.setPluginInfoExtension('plugin')
 
 def load():
-  loop = asyncio.get_event_loop()
   pm.setCategoriesFilter(pluginsFilter)
   pm.collectPlugins()
   for plugin in pm.getAllPlugins():
@@ -58,7 +58,7 @@ def load():
     plugin.plugin_object.id = id;
     plugin.plugin_object.category = category;
     plugin.plugin_object.bp = bp;
-    loop.run_until_complete(plugin.plugin_object.load())
+    plugin.plugin_object.load()
     web.app.blueprint(bp)
 
 def addCategory(category, PluginType):
@@ -79,8 +79,10 @@ def setActivatedPlugins(category, ids):
 
 def activatePluginById(id):
   if not pluginsById[id].plugin_object.is_activated:
+    _logger.info('Plugin {0} activated'.format(id))
     pluginsById[id].plugin_object.activate()
 
 def deactivatePluginById(id):
   if pluginsById[id].plugin_object.is_activated:
+    _logger.info('Plugin {0} deactivated'.format(id))
     pluginsById[id].plugin_object.deactivate()

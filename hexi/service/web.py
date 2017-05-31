@@ -17,6 +17,10 @@ bp.static('/static', 'hexi/.ui_built')
 app.blueprint(bp)
 
 
-def init():
+async def on_start(e):
   server = app.create_server(host='0.0.0.0', port=8000, log_config=None)
   asyncio.ensure_future(server)
+
+
+def init():
+  event.subscribe(on_start, ['hexi.start'])

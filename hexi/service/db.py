@@ -1,14 +1,13 @@
 import functools
+import aiomongo
 
-import motor.motor_asyncio
 
-
-def init():
+async def init():
   global _db
-  client = motor.motor_asyncio.AsyncIOMotorClient()
-  _db = client['hexi']
+  client = await aiomongo.create_client('mongodb://localhost')
+  _db = client.get_database('hexi')
 
 
 @functools.lru_cache()
 def coll(name):
-  return _db[name]
+  return aiomongo.Collection(_db, name)

@@ -1,3 +1,4 @@
+import asyncio
 import ipaddress
 import collections
 import logging
@@ -28,8 +29,8 @@ class PluginInputFsx(InputPlugin):
     #self.udp_analytics_log_queue = collections.deque(maxlen=500)
     #self.udp_data_log_queue = collections.deque(maxlen=500)
 
-  async def load(self):
-    await super().load()
+  def load(self):
+    super().load()
 
     @self.bp.route('/api/config', methods=['GET'])
     async def webGetConfig(request):

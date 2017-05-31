@@ -15,7 +15,7 @@ async def get_config(type, name, default=None):
   return doc
 
 async def save_config(type, name, config):
-  await db.coll('config').update(
+  await db.coll('config').update_one(
     {'_id': get_record_id(type, name)},
     {'$set': {'data': config}},
     upsert=True)

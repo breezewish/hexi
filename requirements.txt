@@ -2,4 +2,4 @@ sanic
 yapsy
 protobuf
 pyee
-motor
+git+https://github.com/iceb0y/aiomongo
