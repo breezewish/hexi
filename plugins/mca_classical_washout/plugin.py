@@ -120,6 +120,22 @@ class PluginMCAClassicalWashout(MCAPlugin):
     async def set_scale_config(request):
       try:
         self.config['scale']['type'] = request.json['type']
+        # TODO: save config
+        return json({ 'code': 200 })
+      except Exception as e:
+        _logger.exception('Save config failed')
+        return json({ 'code': 400, 'reason': str(e) })
+
+    @self.bp.route('/api/config/filter', methods=['GET'])
+    async def get_scale_config(request):
+      return json({ 'code': 200, 'data': self.config['filter'] })
+
+    @self.bp.route('/api/config/filter', methods=['POST'])
+    async def set_scale_config(request):
+      try:
+        self.config['filter'] = request.json
+        self.rebuild_filters()
+        # TODO: save config
         return json({ 'code': 200 })
       except Exception as e:
         _logger.exception('Save config failed')

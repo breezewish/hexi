@@ -72,11 +72,11 @@ export default {
 .layoutLeft
   left: 0
   top: 0
-  width: 250px
+  width: 120px
   height: 100%
 
 .layoutMain
-  left: 250px
+  left: 120px
   top: 0
   right: 0
   height: 100%

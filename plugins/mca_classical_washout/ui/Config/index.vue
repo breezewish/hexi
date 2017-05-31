@@ -4,7 +4,10 @@
       <ui-section-content extend>
         <ui-menu-list>
           <ui-menu-list-item :href="{ name: 'mcaPluginClassicalWashoutConfigScale' }">
-            <i class="fa fa-cog" aria-hidden="true"></i> 信号缩放配置
+            <i class="fa fa-cog" aria-hidden="true"></i> 信号缩放策略
+          </ui-menu-list-item>
+          <ui-menu-list-item :href="{ name: 'mcaPluginClassicalWashoutConfigScaleRange' }">
+            <i class="fa fa-arrows-h" aria-hidden="true"></i> 信号缩放范围
           </ui-menu-list-item>
         </ui-menu-list>
       </ui-section-content>

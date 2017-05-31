@@ -18,7 +18,16 @@ class Plugin {
       path: `/plugins/${PLUGIN_MANIFEST.Core.Id}/config/scale`,
       component: require('./config/scale.vue'),
       meta: {
-        title: '信号缩放配置',
+        title: '信号缩放策略',
+      },
+    });
+    routes.push({
+      name: 'mcaPluginClassicalWashoutConfigScaleRange',
+      parent: 'mcaPluginClassicalWashoutConfig',
+      path: `/plugins/${PLUGIN_MANIFEST.Core.Id}/config/scaleRange`,
+      component: require('./config/scaleRange.vue'),
+      meta: {
+        title: '信号缩放范围',
       },
     });
   }
