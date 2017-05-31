@@ -22,7 +22,6 @@ namespace HexiInputsFsx
         public bool Valid { get; private set; }
         public int Token { get; set; } = 0;
         public int SerialNumber { get; set; } = 1;
-        public bool SimulationStarted { get; set; } = false;
         
         public HexiUdpClient(String host)
         {
@@ -64,7 +63,7 @@ namespace HexiInputsFsx
 
         public override string ToString()
         {
-            return String.Format("{0}:{1} (valid={2},sn={3},running={4})", Host, Port, Valid, SerialNumber, SimulationStarted);
+            return String.Format("{0}:{1} (valid={2},sn={3})", Host, Port, Valid, SerialNumber);
         }
 
         public void SendMessage(UdpResponseMessage message)

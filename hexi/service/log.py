@@ -9,7 +9,7 @@ bp = Blueprint('log', url_prefix='/core/log')
 
 @bp.route('/api/logs')
 async def webGetLogs(request):
-  return json(taillog.log_queue)
+  return json({ 'code': 200, 'data': taillog.log_queue })
 
 
 def init():

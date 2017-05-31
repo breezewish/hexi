@@ -2,6 +2,7 @@ import logging
 import json
 import os
 import configparser
+import asyncio
 
 from sanic import Blueprint
 from sanic.response import text
@@ -34,6 +35,7 @@ def init():
   pm.setPluginInfoExtension('plugin')
 
 def load():
+  loop = asyncio.get_event_loop()
   pm.setCategoriesFilter(pluginsFilter)
   pm.collectPlugins()
   for plugin in pm.getAllPlugins():
@@ -53,9 +55,11 @@ def load():
     # assign static directories
     bp = Blueprint('plugin-{0}'.format(id), url_prefix='/plugins/{0}'.format(id))
     bp.static('/static', os.path.join(os.path.dirname(plugin.path), '.ui_built'))
-    web.app.blueprint(bp)
+    plugin.plugin_object.id = id;
+    plugin.plugin_object.category = category;
     plugin.plugin_object.bp = bp;
-    plugin.plugin_object.load()
+    loop.run_until_complete(plugin.plugin_object.load())
+    web.app.blueprint(bp)
 
 def addCategory(category, PluginType):
   pluginsFilter[category] = PluginType

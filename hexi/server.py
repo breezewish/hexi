@@ -32,12 +32,14 @@ def main():
 
   _logger.debug('Loading base modules...');
   from hexi.service import event
+  from hexi.service import db
   from hexi.service import plugin
   from hexi.service import web
   from hexi.service import log
   from hexi.service.pipeline import inputManager
   from hexi.service.pipeline import mcaManager
   from hexi.service.pipeline import outputManager
+  db.init()
   plugin.init()
   web.init()
   log.init()

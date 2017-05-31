@@ -4,8 +4,8 @@ from hexi.plugin.McaPlugin import McaPlugin
 
 
 def init():
-  event.subscribe(onPipelineInputData, ['hexi.pipeline.input.data'])
+  event.subscribe(on_pipeline_input_data, ['hexi.pipeline.input.data'])
   plugin.addCategory('mca', McaPlugin)
 
-async def onPipelineInputData(e):
+async def on_pipeline_input_data(e):
   pass

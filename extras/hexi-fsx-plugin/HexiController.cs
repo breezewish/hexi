@@ -135,14 +135,6 @@ namespace HexiInputsFsx
                         case TcpRequestMessage.Types.MsgType.TestConnection:
                             responseSuccess = true;
                             break;
-                        case TcpRequestMessage.Types.MsgType.StartTransmission:
-                            client.SimulationStarted = true;
-                            responseSuccess = true;
-                            break;
-                        case TcpRequestMessage.Types.MsgType.StopTransmission:
-                            client.SimulationStarted = false;
-                            responseSuccess = false;
-                            break;
                     }
                     
                     TcpResponseMessage response = new TcpResponseMessage
@@ -199,7 +191,7 @@ namespace HexiInputsFsx
             {
                 foreach (var client in ValueBag.HexiClients)
                 {
-                    if (client.Valid && client.SimulationStarted)
+                    if (client.Valid)
                     {
                         client.SendMessage(msg);
                     }

@@ -7,8 +7,6 @@ message TcpRequestMessage {
     MSG_TYPE_SET_CONFIG = 0;
     MSG_TYPE_PING = 1;
     MSG_TYPE_TEST_CONNECTION = 2;
-    MSG_TYPE_START_TRANSMISSION = 3;
-    MSG_TYPE_STOP_TRANSMISSION = 4;
   }
 
   message SetConfigBody {

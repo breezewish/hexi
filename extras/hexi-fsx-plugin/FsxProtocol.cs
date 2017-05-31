@@ -22,7 +22,7 @@ namespace FsxProtocol {
     static FsxReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cglmc3gucHJvdG8SC0ZzeFByb3RvY29sIq4EChFUY3BSZXF1ZXN0TWVzc2Fn",
+            "Cglmc3gucHJvdG8SC0ZzeFByb3RvY29sIuwDChFUY3BSZXF1ZXN0TWVzc2Fn",
             "ZRI3Cgdtc2dUeXBlGAEgASgOMiYuRnN4UHJvdG9jb2wuVGNwUmVxdWVzdE1l",
             "c3NhZ2UuTXNnVHlwZRJFCg1zZXRDb25maWdCb2R5GAIgASgLMiwuRnN4UHJv",
             "dG9jb2wuVGNwUmVxdWVzdE1lc3NhZ2UuU2V0Q29uZmlnQm9keUgAEjsKCHBp",
@@ -31,25 +31,24 @@ namespace FsxProtocol {
             "bC5UY3BSZXF1ZXN0TWVzc2FnZS5UZXN0Q29ubkJvZHlIABoyCg1TZXRDb25m",
             "aWdCb2R5Eg8KB3VkcFBvcnQYASABKAUSEAoIdWRwVG9rZW4YAiABKAUaHQoI",
             "UGluZ0JvZHkSEQoJdGltZVN0YW1wGAEgASgFGiIKDFRlc3RDb25uQm9keRIS",
-            "CgptYWdpY1Rva2VuGAEgASgFIpQBCgdNc2dUeXBlEhcKE01TR19UWVBFX1NF",
-            "VF9DT05GSUcQABIRCg1NU0dfVFlQRV9QSU5HEAESHAoYTVNHX1RZUEVfVEVT",
-            "VF9DT05ORUNUSU9OEAISHwobTVNHX1RZUEVfU1RBUlRfVFJBTlNNSVNTSU9O",
-            "EAMSHgoaTVNHX1RZUEVfU1RPUF9UUkFOU01JU1NJT04QBEIJCgdtc2dCb2R5",
-            "IjgKElRjcFJlc3BvbnNlTWVzc2FnZRIPCgdzdWNjZXNzGAEgASgIEhEKCXRp",
-            "bWVTdGFtcBgCIAEoBSLIBAoSVWRwUmVzcG9uc2VNZXNzYWdlEjgKB21zZ1R5",
-            "cGUYASABKA4yJy5Gc3hQcm90b2NvbC5VZHBSZXNwb25zZU1lc3NhZ2UuTXNn",
-            "VHlwZRIUCgxzZXJpYWxOdW1iZXIYAiABKAUSDQoFdG9rZW4YAyABKAUSVAoU",
-            "dGVzdENvbm5DYWxsYmFja0JvZHkYBCABKAsyNC5Gc3hQcm90b2NvbC5VZHBS",
-            "ZXNwb25zZU1lc3NhZ2UuVGVzdENvbm5DYWxsYmFja0JvZHlIABJUChR0cmFu",
-            "c21pc3Npb25EYXRhQm9keRgFIAEoCzI0LkZzeFByb3RvY29sLlVkcFJlc3Bv",
-            "bnNlTWVzc2FnZS5UcmFuc21pc3Npb25EYXRhQm9keUgAGioKFFRlc3RDb25u",
-            "Q2FsbGJhY2tCb2R5EhIKCm1hZ2ljVG9rZW4YASABKAUanQEKFFRyYW5zbWlz",
-            "c2lvbkRhdGFCb2R5EhUKDXhBY2NlbGVyYXRpb24YASABKAESFQoNeUFjY2Vs",
-            "ZXJhdGlvbhgCIAEoARIVCg16QWNjZWxlcmF0aW9uGAMgASgBEhUKDXBpdGNo",
-            "VmVsb2NpdHkYBCABKAESFAoMcm9sbFZlbG9jaXR5GAUgASgBEhMKC3lhd1Zl",
-            "bG9jaXR5GAYgASgBIlAKB01zZ1R5cGUSJQohTVNHX1RZUEVfVEVTVF9DT05O",
-            "RUNUSU9OX0NBTExCQUNLEAASHgoaTVNHX1RZUEVfVFJBTlNNSVNTSU9OX0RB",
-            "VEEQAUIJCgdtc2dCb2R5YgZwcm90bzM="));
+            "CgptYWdpY1Rva2VuGAEgASgFIlMKB01zZ1R5cGUSFwoTTVNHX1RZUEVfU0VU",
+            "X0NPTkZJRxAAEhEKDU1TR19UWVBFX1BJTkcQARIcChhNU0dfVFlQRV9URVNU",
+            "X0NPTk5FQ1RJT04QAkIJCgdtc2dCb2R5IjgKElRjcFJlc3BvbnNlTWVzc2Fn",
+            "ZRIPCgdzdWNjZXNzGAEgASgIEhEKCXRpbWVTdGFtcBgCIAEoBSLIBAoSVWRw",
+            "UmVzcG9uc2VNZXNzYWdlEjgKB21zZ1R5cGUYASABKA4yJy5Gc3hQcm90b2Nv",
+            "bC5VZHBSZXNwb25zZU1lc3NhZ2UuTXNnVHlwZRIUCgxzZXJpYWxOdW1iZXIY",
+            "AiABKAUSDQoFdG9rZW4YAyABKAUSVAoUdGVzdENvbm5DYWxsYmFja0JvZHkY",
+            "BCABKAsyNC5Gc3hQcm90b2NvbC5VZHBSZXNwb25zZU1lc3NhZ2UuVGVzdENv",
+            "bm5DYWxsYmFja0JvZHlIABJUChR0cmFuc21pc3Npb25EYXRhQm9keRgFIAEo",
+            "CzI0LkZzeFByb3RvY29sLlVkcFJlc3BvbnNlTWVzc2FnZS5UcmFuc21pc3Np",
+            "b25EYXRhQm9keUgAGioKFFRlc3RDb25uQ2FsbGJhY2tCb2R5EhIKCm1hZ2lj",
+            "VG9rZW4YASABKAUanQEKFFRyYW5zbWlzc2lvbkRhdGFCb2R5EhUKDXhBY2Nl",
+            "bGVyYXRpb24YASABKAESFQoNeUFjY2VsZXJhdGlvbhgCIAEoARIVCg16QWNj",
+            "ZWxlcmF0aW9uGAMgASgBEhUKDXBpdGNoVmVsb2NpdHkYBCABKAESFAoMcm9s",
+            "bFZlbG9jaXR5GAUgASgBEhMKC3lhd1ZlbG9jaXR5GAYgASgBIlAKB01zZ1R5",
+            "cGUSJQohTVNHX1RZUEVfVEVTVF9DT05ORUNUSU9OX0NBTExCQUNLEAASHgoa",
+            "TVNHX1RZUEVfVFJBTlNNSVNTSU9OX0RBVEEQAUIJCgdtc2dCb2R5YgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -321,8 +320,6 @@ namespace FsxProtocol {
         [pbr::OriginalName("MSG_TYPE_SET_CONFIG")] SetConfig = 0,
         [pbr::OriginalName("MSG_TYPE_PING")] Ping = 1,
         [pbr::OriginalName("MSG_TYPE_TEST_CONNECTION")] TestConnection = 2,
-        [pbr::OriginalName("MSG_TYPE_START_TRANSMISSION")] StartTransmission = 3,
-        [pbr::OriginalName("MSG_TYPE_STOP_TRANSMISSION")] StopTransmission = 4,
       }
 
       public sealed partial class SetConfigBody : pb::IMessage<SetConfigBody> {
