@@ -24,12 +24,12 @@ request.interceptors.response.use(null, err => {
 });
 
 const API = {
-  input: {
-    plugins() {
-      return request.get('/core/input/api/plugins');
+  enabledPlugins: {
+    get(type) {
+      return request.get(`/core/${type}/api/plugins`);
     },
-    setEnabledPlugins(idList) {
-      return request.post('/core/input/api/plugins/enabled', { id: idList });
+    set(type, idList) {
+      return request.post(`/core/${type}/api/plugins/enabled`, { id: idList });
     },
   },
 };

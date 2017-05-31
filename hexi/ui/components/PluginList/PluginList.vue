@@ -58,7 +58,11 @@ export default {
           newCheckedId = _.union(this.checkedId, [id]);
         }
       } else {
-        newCheckedId = [id];
+        if (this.checkedId.indexOf(id) > -1) {
+          newCheckedId = [];
+        } else {
+          newCheckedId = [id];
+        }
       }
       this.$emit('change', newCheckedId);
     },

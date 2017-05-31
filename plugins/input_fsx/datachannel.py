@@ -195,6 +195,7 @@ class DataChannel(object):
   def __init__(self, udp_port, tcp_host, tcp_port):
     self.ee = pyee.EventEmitter()
     self.udp_token = random.randint(0, 0x6FFFFFFF)
+    self.udp_port = udp_port
     self.tcp = TCPClientManager(self, tcp_host, tcp_port)
     self.udp = UDPServerManager(self, self.udp_token, '0.0.0.0', udp_port)
     self.udp_receive_counter = 0
@@ -241,8 +242,8 @@ class DataChannel(object):
     self.udp.protocol.sn = 0
     msg = fsx_pb2.TcpRequestMessage()
     msg.msgType = fsx_pb2.TcpRequestMessage.MSG_TYPE_SET_CONFIG
-    msg.setConfigBody.udpPort = 4900
-    msg.setConfigBody.udpToken = channel.udp_token
+    msg.setConfigBody.udpPort = self.udp_port
+    msg.setConfigBody.udpToken = self.udp_token
     self.tcp.write_message(msg)
 
   def on_tcp_received_message(self, msg):

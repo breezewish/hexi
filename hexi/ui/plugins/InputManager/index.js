@@ -15,7 +15,7 @@ export default class UiInputManagerPlugin {
       path: '/core/inputManager/config/activatedPlugin',
       component: require('./Config/activatedPlugin.vue'),
       meta: {
-        title: '输入信号源',
+        title: '选择输入信号源',
       },
     });
   }

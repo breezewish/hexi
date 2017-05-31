@@ -16,7 +16,7 @@ namespace HexiInputsFsx
         public FsxValueBag ValueBag { get; private set; } = new FsxValueBag();
 
         private Thread updateThread;
-        public static int UpdateInterval { get; } = 1000 / 100;
+        public static int UpdateInterval { get; } = 1000 / 25;
 
         private Offset<Int16> ipcPaused = new Offset<Int16>(0x0264);
         private Offset<Int32> ipcTrueAirSpeed = new Offset<Int32>(0x02BC);

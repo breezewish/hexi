@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus">
 .menu-list_item
   display: block
 
@@ -35,7 +35,14 @@ export default {
   color: #666
   transition: background .1s linear
 
+  .fa
+    display: inline-block
+    width: 16px
+    text-align: center
+    margin-right: 5px
+
   &:hover
+    color: #666
     background: oc-gray-1
 
   &.router-link-active

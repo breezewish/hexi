@@ -17,7 +17,7 @@ namespace HexiInputsFsx
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger
     (System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static int ListenPort = 16314;
+        public static int ListenPort = 16315;
         
         public HexiValueBag ValueBag { get; private set; } = new HexiValueBag();
         

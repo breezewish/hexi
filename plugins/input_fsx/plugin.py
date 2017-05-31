@@ -2,10 +2,10 @@ import asyncio
 import ipaddress
 import collections
 import logging
+import numpy
 
 from sanic.response import json
 from hexi.plugin.InputPlugin import InputPlugin
-from hexi.service import event
 from plugins.input_fsx import DataChannel
 
 _logger = logging.getLogger(__name__)
@@ -72,6 +72,7 @@ class PluginInputFsx(InputPlugin):
       self.config['tcp_host'],
       self.config['tcp_port'])
     self.channel.ee.on('udp_received_message', self.on_udp_received_message)
+    self.channel.ee.on('udp_analytics_tick', self.on_udp_analytics_tick)
     self.start_future = asyncio.ensure_future(self.channel.start_async())
     self.start_future.add_done_callback(self.on_start_done)
 
@@ -85,12 +86,15 @@ class PluginInputFsx(InputPlugin):
       self.start_future.cancel()
     self.channel.stop()
 
+  def on_udp_analytics_tick(self, data):
+    print(data)
+
   def on_udp_received_message(self, msg):
-    # !! cood-system is different between Hexi's and Fsx's
-    event.publish('hexi.pipeline.input.data', {
-      'x': msg.transmissionDataBody.zAcceleration,  # forward/backward
-      'y': msg.transmissionDataBody.xAcceleration,  # left/right
-      'z': msg.transmissionDataBody.yAcceleration,  # up/down
-      'alpha': msg.transmissionDataBody.rollVelocity,
-      'beta': msg.transmissionDataBody.pitchVelocity,
-      'gamma': msg.transmissionDataBody.yawVelocity})
+    self.emit_input_signal([
+      msg.transmissionDataBody.zAcceleration,   # forward/backward
+      msg.transmissionDataBody.xAcceleration,   # left/right
+      msg.transmissionDataBody.yAcceleration,   # up/down
+      numpy.deg2rad(msg.transmissionDataBody.rollVelocity),
+      numpy.deg2rad(msg.transmissionDataBody.pitchVelocity),
+      numpy.deg2rad(msg.transmissionDataBody.yawVelocity)])
+

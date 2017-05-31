@@ -1,13 +1,13 @@
 <template>
-  <ui-section-container key="page-input-manager-config">
-    <ui-section title="输入信号" width="300px">
+  <ui-section-container key="page-input-fsx-plugin-config">
+    <ui-section title="FSX 插件" width="300px">
       <ui-section-content extend>
         <ui-menu-list>
-          <ui-menu-list-item :href="{ name: 'hexiInputManagerConfigActivatedPlugin' }">
-            <i class="fa fa-paper-plane" aria-hidden="true"></i> 输入信号源
+          <ui-menu-list-item :href="{ name: 'inputPluginFsxConfigDataOptions' }">
+            <i class="fa fa-cog" aria-hidden="true"></i> 数据监听配置
           </ui-menu-list-item>
           <ui-menu-list-item :href="'/abc'">
-            <i class="fa fa-bug" aria-hidden="true"></i> 信号调试
+            <i class="fa fa-info-circle" aria-hidden="true"></i> 数据接收日志
           </ui-menu-list-item>
         </ui-menu-list>
       </ui-section-content>
@@ -19,9 +19,7 @@
 </template>
 
 <script>
-import API from '@core/utils/api';
-
 export default {
-  name: 'page-input-manager-config',
+  name: 'page-input-fsx-plugin-config',
 }
 </script>

@@ -55,7 +55,10 @@ namespace HexiInputsFsx
         private void FsxController_FsxiValueBagUpdated(object sender, EventArgs e)
         {
             fsxOpsSinceLastUpdate++;
-            hexiController.BroadcastFsxData(fsxController.ValueBag);
+            if (!fsxController.ValueBag.Paused)
+            {
+                hexiController.BroadcastFsxData(fsxController.ValueBag);
+            }
             
             if (DateTime.Now.Subtract(fsxLastUiUpdate).TotalMilliseconds > fsxUiUpdateInterval)
             {

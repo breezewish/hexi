@@ -36,6 +36,9 @@ def main():
   sanic.config.LOGGING['loggers']['sanic']['handlers'].append('memoryTailLog')
   sanic.config.LOGGING['loggers']['network']['propagate'] = False
   sanic.config.LOGGING['loggers']['network']['handlers'].append('memoryTailLog')
+  sanic.config.LOGGING['loggers']['aiomongo.connection'] = {
+    'level': 'INFO',
+  }
   sanic.config.LOGGING['disable_existing_loggers'] = False
   logging.config.dictConfig(sanic.config.LOGGING)
 
@@ -52,11 +55,11 @@ def main():
 
   _logger.info('Loading base plugins...')
   from hexi.service.pipeline import InputManager
-  from hexi.service.pipeline import mcaManager
-  from hexi.service.pipeline import outputManager
+  from hexi.service.pipeline import MCAManager
+  from hexi.service.pipeline import OutputManager
   load_core_module(InputManager.InputManager)
-  mcaManager.init()
-  outputManager.init()
+  load_core_module(MCAManager.MCAManager)
+  load_core_module(OutputManager.OutputManager)
 
   _logger.info('Loading external modules...')
   plugin.load()

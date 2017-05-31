@@ -1,13 +1,10 @@
 <template>
-  <ui-section-container key="page-input-manager-config">
-    <ui-section title="输入信号" width="300px">
+  <ui-section-container key="page-output-manager-config">
+    <ui-section title="输出信号" width="300px">
       <ui-section-content extend>
         <ui-menu-list>
-          <ui-menu-list-item :href="{ name: 'hexiInputManagerConfigActivatedPlugin' }">
-            <i class="fa fa-paper-plane" aria-hidden="true"></i> 输入信号源
-          </ui-menu-list-item>
           <ui-menu-list-item :href="'/abc'">
-            <i class="fa fa-bug" aria-hidden="true"></i> 信号调试
+            <i class="fa fa-paper-plane" aria-hidden="true"></i> 输出目标
           </ui-menu-list-item>
         </ui-menu-list>
       </ui-section-content>
@@ -22,6 +19,6 @@
 import API from '@core/utils/api';
 
 export default {
-  name: 'page-input-manager-config',
+  name: 'page-output-manager-config',
 }
 </script>

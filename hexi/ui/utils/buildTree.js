@@ -2,13 +2,15 @@ import _ from 'lodash';
 
 export default function buildTreeFromPlain(list, idField = 'name', orderField = 'order', parentField = 'parent') {
   const sortedList = _(list)
-    .map(item => {
+    .map((item, idx) => {
       item[orderField] = item[orderField] || 0;
+      item.__index = idx;
       return item;
     })
-    .sortBy(list, [orderField])
+    .sortBy([orderField, '__index'])
     .map(item => {
       delete item[orderField];
+      delete item.__index;
       return item;
     })
     .value();

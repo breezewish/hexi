@@ -1,16 +1,13 @@
 <template>
-  <ui-section-container key="page-input-config" v-loading.body="loading">
-    <ui-section title="配置 FSX 插件" width="300px">
+  <ui-section-container key="page-mca-classical-washout-config-scale" v-loading.body="loading">
+    <ui-section title="信号缩放" width="300px">
       <ui-section-content>
         <el-form ref="form" :model="data" label-position="top">
-          <el-form-item key="tcp_host" label="FSX 主机 IP 地址">
-            <el-input v-model="data.tcp_host"></el-input>
-          </el-form-item>
-          <el-form-item key="tcp_port" label="FSX 主机连接端口">
-            <el-input v-model="data.tcp_port"></el-input>
-          </el-form-item>
-          <el-form-item key="udp_port" label="本地数据端口">
-            <el-input v-model="data.udp_port"></el-input>
+          <el-form-item key="type" label="缩放器类型">
+             <el-select v-model="data.type" placeholder="请选择缩放器" style="width: 100%">
+              <el-option label="三次缩放器" value="third-order"></el-option>
+              <el-option label="线性缩放器" value="linear"></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <el-button @click="submit()">保存</el-button>
@@ -23,10 +20,10 @@
 </template>
 
 <script>
-import API from './api';
+import API from '@module/api';
 
 export default {
-  name: 'page-input-fsx-plugin-config',
+  name: 'page-mca-classical-washout-config-scale',
   data() {
     return {
       data: {},
@@ -43,18 +40,21 @@ export default {
     async initData() {
       this.loading = true;
       try {
-        this.data = (await API.config.get()).data;
+        this.data = (await API.config.scale.get()).data;
       } finally {
         this.loading = false;
       }
     },
     async submit() {
-      await API.config.set(this.data);
+      await API.config.scale.set(this.data);
       this.$notify({
         title: '成功',
         message: '配置更新成功',
         type: 'success'
       });
+    },
+    cancel() {
+      this.$router.go(-1);
     },
   },
 }

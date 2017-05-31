@@ -38,6 +38,8 @@ async function main() {
   await Hexi.loadPlugin(require('@core/plugins/LayoutPage').default);
   await Hexi.loadPlugin(require('@core/plugins/NotFoundPage').default);
   await Hexi.loadPlugin(require('@core/plugins/InputManager').default);
+  await Hexi.loadPlugin(require('@core/plugins/MCAManager').default);
+  await Hexi.loadPlugin(require('@core/plugins/OutputManager').default);
   await Promise.all(Hexi.externalPlugins.map(async BaseClass => {
     try {
       Hexi.loadPlugin(BaseClass);

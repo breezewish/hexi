@@ -1,0 +1,10 @@
+[Core]
+Id = mca_classical_washout
+Category = mca
+Name = 经典洗出算法
+Module = plugin
+
+[Documentation]
+Author = Built-in
+Version = 0.1
+Description = 使用经典洗出算法进行体感模拟

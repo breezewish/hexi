@@ -1,11 +1,13 @@
+from sanic.response import json
 from hexi.service import event
-from hexi.service import plugin
+from hexi.service.pipeline.BaseManager import BaseManager
 from hexi.plugin.OutputPlugin import OutputPlugin
 
 
-def init():
-  event.subscribe(onPipelineMcaData, ['hexi.pipeline.mca.data'])
-  plugin.addCategory('output', OutputPlugin)
+class OutputManager(BaseManager):
+  def __init__(self):
+    super().__init__('output', 'output', OutputPlugin)
 
-async def onPipelineMcaData(e):
-  pass
+  def init(self):
+    super().init()
+

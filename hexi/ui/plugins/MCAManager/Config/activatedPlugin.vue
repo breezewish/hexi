@@ -1,8 +1,8 @@
 <template>
-  <ui-section-container key="page-input-manager-config-activated-plugin" v-loading.body="loading">
-    <ui-section title="选择输入信号源" width="300px">
+  <ui-section-container key="page-mca-manager-config-activated-plugin" v-loading.body="loading">
+    <ui-section title="选择体感模拟算法" width="300px">
       <ui-section-content>
-        以下是当前可用的输入信号源，请选择一项作为输入信号。
+        以下是当前已安装的体感模拟算法，请选择一项。
       </ui-section-content>
       <ui-section-content>
         <el-button type="primary" :disabled="!hasChanged || loading" @click="handleSave">保存</el-button>
@@ -28,7 +28,7 @@
 import API from '@core/utils/api';
 
 export default {
-  name: 'page-input-manager-config-activated-plugin',
+  name: 'page-mca-manager-config-activated-plugin',
   data() {
     return {
       data: {},
@@ -47,7 +47,7 @@ export default {
       this.loading = true;
       this.checkedId = [];
       try {
-        this.data = (await API.enabledPlugins.get('input')).data;
+        this.data = (await API.enabledPlugins.get('mca')).data;
         this.checkedId = this.data.enabled;
       } finally {
         this.loading = false;
@@ -61,7 +61,7 @@ export default {
     async handleSave() {
       this.loading = true;
       try {
-        API.enabledPlugins.set('input', this.checkedId);
+        API.enabledPlugins.set('mca', this.checkedId);
         this.hasChanged = false;
       } finally {
         this.loading = false;
