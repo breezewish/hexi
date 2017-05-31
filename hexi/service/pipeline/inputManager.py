@@ -1,6 +1,5 @@
 import asyncio
 
-from sanic.response import json
 from hexi.service import event
 from hexi.service.pipeline.BaseManager import BaseManager
 from hexi.plugin.InputPlugin import InputPlugin

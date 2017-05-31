@@ -1,4 +1,4 @@
-import PLUGIN_MANIFEST from '../manifest.plugin';
+import PLUGIN_MANIFEST from '@module/../manifest.plugin';
 import _ from 'lodash';
 
 class Plugin {

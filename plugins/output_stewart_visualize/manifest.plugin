@@ -1,0 +1,10 @@
+[Core]
+Id = output_stewart_visualize
+Category = output
+Name = 六自由度平台可视化仿真
+Module = plugin
+
+[Documentation]
+Author = Built-in
+Version = 0.1
+Description = 可视化模拟一个用于体感模拟的六自由度平台

@@ -33,11 +33,11 @@ class PluginInputFsx(InputPlugin):
     super().load()
 
     @self.bp.route('/api/config', methods=['GET'])
-    async def webGetConfig(request):
+    async def get_config(request):
       return json({ 'code': 200, 'data': self.config })
 
     @self.bp.route('/api/config', methods=['POST'])
-    async def webSetConfig(request):
+    async def set_config(request):
       try:
         self.set_config(request.json)
         return json({ 'code': 200 })

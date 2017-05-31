@@ -13,21 +13,21 @@ _logger = logging.getLogger(__name__)
 
 loop = asyncio.get_event_loop()
 pm = PluginManager()
-pluginsById = {}
-pluginsByCategory = {}
-pluginsFilter = {}
+plugins_by_id = {}
+plugins_by_category = {}
+plugins_filter = {}
 
 bp = Blueprint('plugin', url_prefix='/core/plugin')
 
 
 @bp.route('/loadPlugins.js')
-async def webGetPlugins(request):
-  pluginIdList = [plugin.details.get('Core', 'Id')
+async def get_plugins(request):
+  pids = [plugin.details.get('Core', 'Id')
     for plugin in pm.getAllPlugins()]
-  responseText = 'var EXTERNAL_PLUGINS = {0};\n'.format(json.dumps(pluginIdList));
-  for id in pluginIdList:
-    responseText += ('try{{document.write(\'<script src="/plugins/{0}/static/main.js"></script>\');}}catch(e){{}}\n'.format(id))
-  return text(responseText, content_type='application/javascript')
+  resp_text = 'var EXTERNAL_PLUGINS = {0};\n'.format(json.dumps(pids));
+  for id in pids:
+    resp_text += ('try{{document.write(\'<script src="/plugins/{0}/static/main.js"></script>\');}}catch(e){{}}\n'.format(id))
+  return text(resp_text, content_type='application/javascript')
 
 
 def init():
@@ -36,7 +36,7 @@ def init():
   pm.setPluginInfoExtension('plugin')
 
 def load():
-  pm.setCategoriesFilter(pluginsFilter)
+  pm.setCategoriesFilter(plugins_filter)
   pm.collectPlugins()
   for plugin in pm.getAllPlugins():
     try:
@@ -45,12 +45,12 @@ def load():
       _logger.error('Plugin `{0}` is ignored because of missing valid `Id` property.'.format(plugin.name))
     try:
       category = plugin.details.get('Core', 'Category')
-      assert(category in pluginsByCategory.keys())
+      assert(category in plugins_by_category.keys())
     except configparser.NoOptionError:
       _logger.error('Plugin `{0}` is ignored because of missing valid `Category` property.'.format(plugin.name))
 
-    pluginsByCategory[category].append(plugin)
-    pluginsById[id] = plugin
+    plugins_by_category[category].append(plugin)
+    plugins_by_id[id] = plugin
 
     # assign static directories
     bp = Blueprint('plugin-{0}'.format(id), url_prefix='/plugins/{0}'.format(id))
@@ -61,28 +61,28 @@ def load():
     plugin.plugin_object.load()
     web.app.blueprint(bp)
 
-def addCategory(category, PluginType):
-  pluginsFilter[category] = PluginType
-  pluginsByCategory[category] = []
+def add_category(category, PluginType):
+  plugins_filter[category] = PluginType
+  plugins_by_category[category] = []
 
-def getPluginsInCategory(category):
-  return pluginsByCategory[category]
+def get_plugins_in_category(category):
+  return plugins_by_category[category]
 
-def setActivatedPlugins(category, ids):
-  plugins = getPluginsInCategory(category)
+def set_activated_plugins(category, ids):
+  plugins = get_plugins_in_category(category)
   for plugin in plugins:
     id = plugin.details.get('Core', 'Id')
     if id in ids:
-      activatePluginById(id)
+      activate_plugin_by_id(id)
     else:
-      deactivatePluginById(id)
+      deactivate_plugin_by_id(id)
 
-def activatePluginById(id):
-  if not pluginsById[id].plugin_object.is_activated:
+def activate_plugin_by_id(id):
+  if not plugins_by_id[id].plugin_object.is_activated:
     _logger.info('Plugin {0} activated'.format(id))
-    pluginsById[id].plugin_object.activate()
+    plugins_by_id[id].plugin_object.activate()
 
-def deactivatePluginById(id):
-  if pluginsById[id].plugin_object.is_activated:
+def deactivate_plugin_by_id(id):
+  if plugins_by_id[id].plugin_object.is_activated:
     _logger.info('Plugin {0} deactivated'.format(id))
-    pluginsById[id].plugin_object.deactivate()
+    plugins_by_id[id].plugin_object.deactivate()

@@ -1,3 +1,5 @@
+// This file is used to build the visualize platform
+
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -6,10 +8,10 @@ const root = (p = '.') => path.resolve(__dirname, p);
 
 const config = {
   entry: {
-    app: root('./src/application.js'),
+    app: root('./visualizer/application.js'),
   },
   output: {
-    path: root('./dist'),
+    path: root('./.ui_built/visualizer'),
     filename: '[name].js',
   },
   resolve: {
@@ -17,7 +19,7 @@ const config = {
       root('./node_modules'),
     ],
     alias: {
-      '@': root('./src'),
+      '@': root('./visualizer'),
     },
   },
   target: 'web',
@@ -43,7 +45,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: root('src/template.html'),
+      template: root('visualizer/template.html'),
     }),
   ],
   devServer: {

@@ -20,7 +20,7 @@ class BaseManager(BaseCoreModule):
 
     @self.bp.route('/api/plugins')
     async def get_plugins(request):
-      raw_plugins = plugin.getPluginsInCategory(self.plugin_category)
+      raw_plugins = plugin.get_plugins_in_category(self.plugin_category)
       plugins = [{
         'id': raw_plugin.details.get('Core', 'Id'),
         'name': raw_plugin.name,
@@ -38,7 +38,7 @@ class BaseManager(BaseCoreModule):
     @self.bp.route('/api/plugins/enabled', methods=['POST'])
     async def set_activated_plugins(request):
       activated_plugins = request.json['id']
-      plugin.setActivatedPlugins(self.plugin_category, activated_plugins)
+      plugin.set_activated_plugins(self.plugin_category, activated_plugins)
       self.config['enabled_plugins'] = self._get_current_activated_plugins()
       self.save_config()
       return json({
@@ -47,13 +47,13 @@ class BaseManager(BaseCoreModule):
       })
 
     event.subscribe(self._activate_plugins, ['hexi.start'])
-    plugin.addCategory(self.plugin_category, self.plugin_class)
+    plugin.add_category(self.plugin_category, self.plugin_class)
 
   def _get_current_activated_plugins(self):
-    raw_plugins = plugin.getPluginsInCategory(self.plugin_category)
+    raw_plugins = plugin.get_plugins_in_category(self.plugin_category)
     return [raw_plugin.details.get('Core', 'Id')
             for raw_plugin in raw_plugins
             if raw_plugin.plugin_object.is_activated]
 
   async def _activate_plugins(self, e):
-    plugin.setActivatedPlugins(self.plugin_category, self.config['enabled_plugins'])
+    plugin.set_activated_plugins(self.plugin_category, self.config['enabled_plugins'])

@@ -9,6 +9,15 @@ export default class UiOutputManagerPlugin {
         title: '输出信号',
       },
     });
+    routes.push({
+      name: 'hexiOutputManagerConfigActivatedPlugin',
+      parent: 'hexiOutputManagerConfig',
+      path: '/core/outputManager/config/activatedPlugin',
+      component: require('./Config/activatedPlugin.vue'),
+      meta: {
+        title: '选择目标体感平台',
+      },
+    });
   }
 
   registerSidebarMenus(menus) {

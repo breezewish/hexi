@@ -39,6 +39,9 @@ def main():
   sanic.config.LOGGING['loggers']['aiomongo.connection'] = {
     'level': 'INFO',
   }
+  sanic.config.LOGGING['loggers']['yapsy'] = {
+    'level': 'INFO',
+  }
   sanic.config.LOGGING['disable_existing_loggers'] = False
   logging.config.dictConfig(sanic.config.LOGGING)
 
