@@ -87,7 +87,17 @@ class Application {
       console.log('WS Connection Established');
     });
     ws.addEventListener('message', ev => {
-      console.log(ev.data);
+      try {
+        const data = JSON.parse(ev.data);
+        this.controlOptions.attitude.surge = data[0] * 50;
+        this.controlOptions.attitude.sway = data[1] * 50;
+        this.controlOptions.attitude.heave = data[2] * 50;
+        this.controlOptions.attitude.roll = THREE.Math.radToDeg(data[3]);
+        this.controlOptions.attitude.pitch = THREE.Math.radToDeg(data[4]);
+        this.controlOptions.attitude.sway = THREE.Math.radToDeg(data[5]);
+        this._updateAttitude();
+      } catch (e) {
+      }
     });
   }
 
