@@ -13,8 +13,6 @@ _logger = logging.getLogger(__name__)
 
 class UDPServer(asyncio.DatagramProtocol):
 
-  SERIAL_COUNTER_MAX = 0x2FFFFFFF
-
   def __init__(self, manager, token):
     super().__init__()
     self.manager = manager
@@ -31,7 +29,7 @@ class UDPServer(asyncio.DatagramProtocol):
         print(msg.token, self.token)
         self.manager.ee.emit('udp_discarded_message')
         return
-      if msg.serialNumber + UDPServer.SERIAL_COUNTER_MAX <= self.sn + UDPServer.SERIAL_COUNTER_MAX:
+      if msg.serialNumber <= self.sn:
         _logger.warn('A message is discarded because of received newer message')
         self.manager.ee.emit('udp_discarded_message')
         return
