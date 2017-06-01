@@ -1,7 +1,9 @@
+import json
 import asyncio
 import logging
+import numpy
 
-from sanic.response import json
+from sanic import response
 from hexi.plugin.OutputPlugin import OutputPlugin
 
 _logger = logging.getLogger(__name__)
@@ -12,6 +14,29 @@ class PluginOutputStewartVisualize(OutputPlugin):
   def __init__(self):
     super().__init__()
     self.configurable = True
+    self.connected_clients = set()
 
   def handle_motion_signal(self, input_signal, motion_signal):
-    pass
+    print("%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f" % (
+      motion_signal[0],
+      motion_signal[1],
+      motion_signal[2],
+      numpy.rad2deg(motion_signal[3]),
+      numpy.rad2deg(motion_signal[4]),
+      numpy.rad2deg(motion_signal[5])
+    ))
+    data_to_send = json.dumps(motion_signal)
+    for client in self.connected_clients:
+      asyncio.ensure_future(client.send(data_to_send))
+
+  def load(self):
+    super().load()
+
+    @self.bp.websocket('/api/signal')
+    async def signal_feed(request, ws):
+      try:
+        self.connected_clients.add(ws)
+        while True:
+          await ws.recv()
+      finally:
+        self.connected_clients.remove(ws)

@@ -3,6 +3,7 @@ import dat from 'dat.gui/build/dat.gui.js';
 import Stats from 'stats.js';
 import OrbitControlsFactory from 'three-orbit-controls';
 import StewartPlatform from '@/platform/stewart';
+import WebSocket from 'reconnecting-websocket';
 
 const OrbitControls = OrbitControlsFactory(THREE);
 
@@ -31,6 +32,7 @@ class Application {
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
 
+    this.initDataChannel();
     this.initStats();
     this.initScene();
     this.initControl();
@@ -77,6 +79,16 @@ class Application {
 
     this.stewart = new StewartPlatform();
     this.stewart.addTo(this.scene);
+  }
+
+  initDataChannel() {
+    const ws = new WebSocket(`ws://${location.host}/plugins/output_stewart_visualize/api/signal`);
+    ws.addEventListener('open', () => {
+      console.log('WS Connection Established');
+    });
+    ws.addEventListener('message', ev => {
+      console.log(ev.data);
+    });
   }
 
   initControl() {

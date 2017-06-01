@@ -1,4 +1,4 @@
-from sanic.response import json
+from sanic import response
 from hexi.service import event
 from hexi.service import plugin
 from hexi.plugin.BaseCoreModule import BaseCoreModule
@@ -27,7 +27,7 @@ class BaseManager(BaseCoreModule):
         'description': raw_plugin.description,
         'configurable': raw_plugin.plugin_object.configurable,
       } for raw_plugin in raw_plugins]
-      return json({
+      return response.json({
         'code': 200,
         'data': {
           'available': plugins,
@@ -41,7 +41,7 @@ class BaseManager(BaseCoreModule):
       plugin.set_activated_plugins(self.plugin_category, activated_plugins)
       self.config['enabled_plugins'] = self._get_current_activated_plugins()
       self.save_config()
-      return json({
+      return response.json({
         'code': 200,
         'data': activated_plugins,
       })

@@ -5,7 +5,7 @@ import configparser
 import asyncio
 
 from sanic import Blueprint
-from sanic.response import text
+from sanic import response
 from yapsy.PluginManager import PluginManager
 from hexi.service import web
 
@@ -27,7 +27,7 @@ async def get_plugins(request):
   resp_text = 'var EXTERNAL_PLUGINS = {0};\n'.format(json.dumps(pids));
   for id in pids:
     resp_text += ('try{{document.write(\'<script src="/plugins/{0}/static/main.js"></script>\');}}catch(e){{}}\n'.format(id))
-  return text(resp_text, content_type='application/javascript')
+  return response.text(resp_text, content_type='application/javascript')
 
 
 def init():

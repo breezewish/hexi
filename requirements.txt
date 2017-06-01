@@ -3,3 +3,4 @@ yapsy
 protobuf
 pyee
 git+https://github.com/iceb0y/aiomongo
+websockets

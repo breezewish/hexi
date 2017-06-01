@@ -3,8 +3,9 @@ import ipaddress
 import collections
 import logging
 import numpy
+import scipy.constants
 
-from sanic.response import json
+from sanic import response
 from hexi.plugin.InputPlugin import InputPlugin
 from plugins.input_fsx import DataChannel
 
@@ -34,16 +35,16 @@ class PluginInputFsx(InputPlugin):
 
     @self.bp.route('/api/config', methods=['GET'])
     async def get_config(request):
-      return json({ 'code': 200, 'data': self.config })
+      return response.json({ 'code': 200, 'data': self.config })
 
     @self.bp.route('/api/config', methods=['POST'])
     async def set_config(request):
       try:
         self.set_config(request.json)
-        return json({ 'code': 200 })
+        return response.json({ 'code': 200 })
       except Exception as e:
         _logger.exception('Save config failed')
-        return json({ 'code': 400, 'reason': str(e) })
+        return response.json({ 'code': 400, 'reason': str(e) })
 
   def activate(self):
     super().activate()
@@ -88,12 +89,16 @@ class PluginInputFsx(InputPlugin):
 
   def on_udp_analytics_tick(self, data):
     print(data)
+    # TODO
+    pass
 
   def on_udp_received_message(self, msg):
     self.emit_input_signal([
-      msg.transmissionDataBody.zAcceleration,   # forward/backward
-      msg.transmissionDataBody.xAcceleration,   # left/right
-      msg.transmissionDataBody.yAcceleration,   # up/down
+      # convert foot to meter
+      scipy.constants.foot * msg.transmissionDataBody.zAcceleration,   # forward/backward
+      scipy.constants.foot * msg.transmissionDataBody.xAcceleration,   # left/right
+      scipy.constants.foot * msg.transmissionDataBody.yAcceleration,   # up/down
+      # convert degree to radians
       numpy.deg2rad(msg.transmissionDataBody.rollVelocity),
       numpy.deg2rad(msg.transmissionDataBody.pitchVelocity),
       numpy.deg2rad(msg.transmissionDataBody.yawVelocity)])

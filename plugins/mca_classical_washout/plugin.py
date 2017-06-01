@@ -7,7 +7,7 @@ import numpy
 import scipy.constants
 import time
 
-from sanic.response import json
+from sanic import response
 from hexi.plugin.MCAPlugin import MCAPlugin
 from hexi.service import event
 from plugins.mca_classical_washout import dfilter
@@ -15,6 +15,9 @@ from plugins.mca_classical_washout import dfilter
 _logger = logging.getLogger(__name__)
 
 VECTOR_G = numpy.array([[0, 0, scipy.constants.g]]).T
+MAX_MOVE_ACCELERATION = 1                 # in meters
+MAX_ROTATE_VELOCITY = numpy.deg2rad(10)   # in degree
+MAX_TILT_ACCELERATION = math.sin(numpy.deg2rad(30)) * scipy.constants.g
 
 coll_2lp = []
 coll_3hp = []
@@ -32,12 +35,12 @@ class PluginMCAClassicalWashout(MCAPlugin):
       'scale': {
         'type': 'third-order',  # ['third-order', 'linear']
         'src_max': {
-          'x': 10,
-          'y': 10,
-          'z': 10,
-          'alpha': 10,
-          'beta': 10,
-          'gamma': 10,
+          'x': 0,
+          'y': 0,
+          'z': 0,
+          'alpha': 0,
+          'beta': 0,
+          'gamma': 0,
         },  # 在运行时根据数据调整最大值
       },
       'filter': {
@@ -114,21 +117,21 @@ class PluginMCAClassicalWashout(MCAPlugin):
 
     @self.bp.route('/api/config/scale', methods=['GET'])
     async def get_scale_config(request):
-      return json({ 'code': 200, 'data': self.config['scale'] })
+      return response.json({ 'code': 200, 'data': self.config['scale'] })
 
     @self.bp.route('/api/config/scale', methods=['POST'])
     async def set_scale_config(request):
       try:
         self.config['scale']['type'] = request.json['type']
         # TODO: save config
-        return json({ 'code': 200 })
+        return response.json({ 'code': 200 })
       except Exception as e:
         _logger.exception('Save config failed')
-        return json({ 'code': 400, 'reason': str(e) })
+        return response.json({ 'code': 400, 'reason': str(e) })
 
     @self.bp.route('/api/config/filter', methods=['GET'])
     async def get_scale_config(request):
-      return json({ 'code': 200, 'data': self.config['filter'] })
+      return response.json({ 'code': 200, 'data': self.config['filter'] })
 
     @self.bp.route('/api/config/filter', methods=['POST'])
     async def set_scale_config(request):
@@ -136,13 +139,14 @@ class PluginMCAClassicalWashout(MCAPlugin):
         self.config['filter'] = request.json
         self.rebuild_filters()
         # TODO: save config
-        return json({ 'code': 200 })
+        return response.json({ 'code': 200 })
       except Exception as e:
         _logger.exception('Save config failed')
-        return json({ 'code': 400, 'reason': str(e) })
+        return response.json({ 'code': 400, 'reason': str(e) })
 
     # TODO: remove this!!!!
     ########
+    """
     FREQ = 20
     impulse = numpy.zeros(20 * FREQ, dtype=numpy.float)
     x = numpy.zeros(20 * FREQ, dtype=numpy.float)
@@ -162,7 +166,7 @@ class PluginMCAClassicalWashout(MCAPlugin):
       self.handle_input_signal([impulse[i], 0, 0, 0, 0, 0])
 
     print(time.time())
-
+    """
     """
     import matplotlib.pyplot as plt
     fig, ax = plt.subplots()
@@ -206,6 +210,43 @@ class PluginMCAClassicalWashout(MCAPlugin):
         filters['gamma'].apply(omega_s[2][0]),
       ]]).T
 
+  def apply_scaling(self, x, max_x, max_y):
+    if max_x == 0:
+      return 0
+    sign = numpy.sign(x)
+    if abs(x) > max_x:
+      return sign * max_y
+    else:
+      return (max_y / max_x) * x
+
+  def apply_movement_scaling(self, vector):
+    # TODO: fix me. currently using a fixed max_x
+    ret = numpy.copy(vector)
+    scale_opt = self.config['scale']['src_max']
+    ret[0][0] = self.apply_scaling(vector[0][0], 3, MAX_MOVE_ACCELERATION)
+    ret[1][0] = self.apply_scaling(vector[1][0], 3, MAX_MOVE_ACCELERATION)
+    #ret[2][0] = self.apply_scaling(vector[2][0], scale_opt['z'], MAX_MOVE_ACCELERATION)
+    return ret
+
+  def apply_rotate_scaling(self, vector):
+    # TODO: fix me. currently using a fixed max_x
+    ret = numpy.copy(vector)
+    scale_opt = self.config['scale']['src_max']
+    ret[0][0] = self.apply_scaling(vector[0][0], 2, MAX_ROTATE_VELOCITY)
+    ret[1][0] = self.apply_scaling(vector[1][0], 2, MAX_ROTATE_VELOCITY)
+    ret[2][0] = self.apply_scaling(vector[2][0], 2, MAX_ROTATE_VELOCITY)
+    return ret
+
+  def apply_tilt_scaling(self, scalar):
+    return scalar * (MAX_TILT_ACCELERATION / MAX_MOVE_ACCELERATION)
+    """
+    sign = numpy.sign(scalar)
+    if abs(scalar) > MAX_TILT_ACCELERATION:
+      return sign * MAX_TILT_ACCELERATION
+    else:
+      return scalar
+    """
+
   def reset(self):
     global ig_disp_1, ig_disp_2, ig_rot_1, ps, po
     ig_disp_1 = numpy.array([[0, 0, 0]]).T  # 位移运动一次积分
@@ -244,10 +285,10 @@ class PluginMCAClassicalWashout(MCAPlugin):
       [-math.sin(po[2][0]), math.cos(po[2][0]), 0],
       [0, 0, 1],
     ])
-    L = r_x * r_y * r_z
+    L = r_x.dot(r_y).dot(r_z)
 
     # 体坐标系下重力加速度
-    g_a = L * VECTOR_G
+    g_a = L.dot(VECTOR_G)
 
     # 绝对线加速度
     a_a = numpy.array([data[0:3]]).T
@@ -261,11 +302,10 @@ class PluginMCAClassicalWashout(MCAPlugin):
     #####################
 
     # 位移运动：缩放
-    # TODO
-    f_s = f_a
+    f_s = self.apply_movement_scaling(f_a)
 
     # 位移运动：变幻
-    f_i = L * f_s
+    f_i = L.dot(f_s)
     a_i = f_i + VECTOR_G
 
     # 位移运动：高通滤波
@@ -274,7 +314,7 @@ class PluginMCAClassicalWashout(MCAPlugin):
     # 位移运动：积分
     ig_disp_1 = ig_disp_1 + delta_time * a_hp       # 第一次积分
     ig_disp_2 = ig_disp_2 + delta_time * ig_disp_1  # 第二次积分
-    ps = ig_disp_2
+    ps = numpy.copy(ig_disp_2)
 
     #####################
 
@@ -283,8 +323,8 @@ class PluginMCAClassicalWashout(MCAPlugin):
 
     # 倾斜协调：计算（公式2.29）
     theta_lp = numpy.array([[
-      math.asin(f_lp[1][0] / scipy.constants.g),
-      -math.asin(f_lp[0][0] / scipy.constants.g),
+      math.asin(self.apply_tilt_scaling(f_lp[1][0]) / scipy.constants.g),
+      -math.asin(self.apply_tilt_scaling(f_lp[0][0]) / scipy.constants.g),
       0
     ]]).T
 
@@ -295,8 +335,7 @@ class PluginMCAClassicalWashout(MCAPlugin):
     #####################
 
     # 旋转运动：缩放
-    # TODO
-    omega_s = omega_a
+    omega_s = self.apply_rotate_scaling(omega_a)
 
     # 旋转运动：高通滤波
     omega_hp = self.apply_rotate_filter(omega_s)

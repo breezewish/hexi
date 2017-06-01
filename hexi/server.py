@@ -29,19 +29,14 @@ def main():
     'formatter': 'simple',
   }
   sanic.config.LOGGING['root'] = {
-    'level': 'DEBUG',
+    'level': 'INFO',
     'handlers': ['internal', 'errorStream', 'memoryTailLog'],
   }
+  sanic.config.LOGGING['loggers']['sanic']['level'] = 'INFO'
   sanic.config.LOGGING['loggers']['sanic']['propagate'] = False
   sanic.config.LOGGING['loggers']['sanic']['handlers'].append('memoryTailLog')
   sanic.config.LOGGING['loggers']['network']['propagate'] = False
   sanic.config.LOGGING['loggers']['network']['handlers'].append('memoryTailLog')
-  sanic.config.LOGGING['loggers']['aiomongo.connection'] = {
-    'level': 'INFO',
-  }
-  sanic.config.LOGGING['loggers']['yapsy'] = {
-    'level': 'INFO',
-  }
   sanic.config.LOGGING['disable_existing_loggers'] = False
   logging.config.dictConfig(sanic.config.LOGGING)
 

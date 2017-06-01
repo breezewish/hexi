@@ -64,7 +64,7 @@ class TCPClientManager(object):
       try:
         future = asyncio.open_connection(self.host, self.port)
         reader, writer = await asyncio.wait_for(future, timeout=3)
-        _logger.debug('Telemetry connected')
+        _logger.info('Telemetry connected')
         self.reader = reader
         self.writer = writer
         self.state = 'connected'
@@ -113,7 +113,7 @@ class TCPClientManager(object):
       pass
 
   def on_work_done(self, future):
-    _logger.debug('Telemetry connection lost')
+    _logger.info('Telemetry connection lost')
     self.work_future = None
     if self.heartbeat_future != None:
       self.heartbeat_future.cancel()
@@ -128,7 +128,7 @@ class TCPClientManager(object):
   def reconnect(self):
     assert(self.state == 'connected')
     assert(self.reconnect_future == None)
-    _logger.debug('Telemetry reconnecting')
+    _logger.info('Telemetry reconnecting')
     self.state = 'reconnecting'
     self.reconnect_future = asyncio.ensure_future(self.reconnect_async())
     self.reconnect_future.add_done_callback(self.on_reconnect_done)
@@ -179,11 +179,11 @@ class UDPServerManager(object):
     self.transport = transport
     self.protocol = protocol
     self.state = 'opened'
-    _logger.debug('Telemetry receiver listening at {0}:{1}'.format(self.host, self.port))
+    _logger.info('Telemetry receiver listening at {0}:{1}'.format(self.host, self.port))
 
   def close(self):
     assert(self.state in ['opening', 'opened'])
-    _logger.debug('Telemetry receiver is closing')
+    _logger.info('Telemetry receiver is closing')
     self.state = 'closed'
     if self.transport != None:
       self.transport.close()
@@ -224,15 +224,15 @@ class DataChannel(object):
     self.udp_analytics_future = None
 
   async def start_async(self):
-    _logger.debug('Starting telemetry channel')
+    _logger.info('Starting telemetry channel')
     self.udp_analytics_future = asyncio.ensure_future(self.udp_analytics_async())
     self.udp_analytics_future.add_done_callback(self.on_udp_analytics_done)
     await self.udp.create_endpoint_async()
     await self.tcp.connect()
-    _logger.debug('Telemetry channel started')
+    _logger.info('Telemetry channel started')
 
   def stop(self):
-    _logger.debug('Stopping telemetry channel')
+    _logger.info('Stopping telemetry channel')
     if self.udp_analytics_future != None:
       self.udp_analytics_future.cancel()
     self.tcp.disconnect()
