@@ -144,41 +144,6 @@ class PluginMCAClassicalWashout(MCAPlugin):
         _logger.exception('Save config failed')
         return response.json({ 'code': 400, 'reason': str(e) })
 
-    # TODO: remove this!!!!
-    ########
-    """
-    FREQ = 20
-    impulse = numpy.zeros(20 * FREQ, dtype=numpy.float)
-    x = numpy.zeros(20 * FREQ, dtype=numpy.float)
-    for i in range(0, 20 * FREQ):
-      x[i] = i / FREQ
-    for i in range(1 * FREQ, 2 * FREQ):
-      impulse[i] = (i - 1 * FREQ) / FREQ * 6
-    for i in range(2 * FREQ, 7 * FREQ):
-      impulse[i] = 6
-    for i in range(7 * FREQ, 8 * FREQ):
-      impulse[i] = 6 - ((i - 7 * FREQ) / FREQ * 6)
-
-
-    print(time.time())
-
-    for i in range(0, 20 * FREQ):
-      self.handle_input_signal([impulse[i], 0, 0, 0, 0, 0])
-
-    print(time.time())
-    """
-    """
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots()
-    ax.plot(x, impulse, label='Input Signal')
-    ax.plot(x, coll_s, label='S')
-    ax.plot(x, coll_theta_tc, label='theta')
-    ax.legend(loc='lower right')
-    plt.show()
-    """
-
-    ########
-
   def _update_scale(self, data):
     scales = self.config['scale']['src_max']
     for index, key in enumerate(['x', 'y', 'z', 'alpha', 'beta', 'gamma']):

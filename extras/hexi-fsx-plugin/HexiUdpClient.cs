@@ -14,20 +14,18 @@ namespace HexiInputsFsx
 {
     public class HexiUdpClient
     {
-        private const int COUNTER_MAX = 0x2FFFFFFF;
-
         private UdpClient client = new UdpClient();
         public string Host { get; private set; }
         public int Port { get; private set; } = 0;
         public bool Valid { get; private set; }
         public int Token { get; set; } = 0;
         public int SerialNumber { get; set; } = 1;
-        
+
         public HexiUdpClient(String host)
         {
             Host = host;
         }
-        
+
         public void SetTransmissionTarget(int port, int token)
         {
             Port = port;
@@ -48,13 +46,13 @@ namespace HexiInputsFsx
         public async Task SendMessageAsync(UdpResponseMessage message)
         {
             // No need to add length prefix since packet size < MTU
-            SerialNumber = (SerialNumber + 1) % COUNTER_MAX;
+            SerialNumber = SerialNumber + 1;
             message.Token = Token;
             message.SerialNumber = SerialNumber;
             var body = message.ToByteArray();
             await SendAsync(body, body.Length);
         }
-        
+
         public void Close()
         {
             Valid = false;
