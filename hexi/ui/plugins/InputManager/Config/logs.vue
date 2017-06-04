@@ -60,6 +60,11 @@ export default {
             gridLines: {
               display: true
             },
+            ticks: {
+              callback: function(value, index, values) {
+                return value.toFixed(2);
+              },
+            },
           }],
         },
         elements: {

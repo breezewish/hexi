@@ -60,18 +60,37 @@ namespace HexiInputsFsx
             {
                 FSUIPCConnection.Process();
                 ValueBag.Paused = ipcPaused.Value == 1;
-                ValueBag.TrueAirSpeed = (double)ipcTrueAirSpeed.Value / 128d;
-                ValueBag.Lat = ipcLat.Value;
-                ValueBag.Lng = ipcLng.Value;
-                ValueBag.XVelocity = ipcXVelocity.Value;
-                ValueBag.YVelocity = ipcYVelocity.Value;
-                ValueBag.ZVelocity = ipcZVelocity.Value;
-                ValueBag.XAcceleration = ipcXAcceleration.Value;
-                ValueBag.YAcceleration = ipcYAcceleration.Value;
-                ValueBag.ZAcceleration = ipcZAcceleration.Value;
-                ValueBag.PitchVelocity = ipcPitchVelocity.Value * 180d / Math.PI;
-                ValueBag.RollVelocity = ipcRollVelocity.Value * 180d / Math.PI;
-                ValueBag.YawVelocity = ipcYawVelocity.Value * 180d / Math.PI;
+                if (ValueBag.Paused)
+                {
+                    ValueBag.TrueAirSpeed = 0;
+                    ValueBag.Lat = 0;
+                    ValueBag.Lng = 0;
+                    ValueBag.XVelocity = 0;
+                    ValueBag.YVelocity = 0;
+                    ValueBag.ZVelocity = 0;
+                    ValueBag.XAcceleration = 0;
+                    ValueBag.YAcceleration = 0;
+                    ValueBag.ZAcceleration = 0;
+                    ValueBag.PitchVelocity = 0;
+                    ValueBag.RollVelocity = 0;
+                    ValueBag.YawVelocity = 0;
+                }
+                else
+                {
+                    ValueBag.TrueAirSpeed = (double)ipcTrueAirSpeed.Value / 128d;
+                    ValueBag.Lat = ipcLat.Value;
+                    ValueBag.Lng = ipcLng.Value;
+                    ValueBag.XVelocity = ipcXVelocity.Value;
+                    ValueBag.YVelocity = ipcYVelocity.Value;
+                    ValueBag.ZVelocity = ipcZVelocity.Value;
+                    ValueBag.XAcceleration = ipcXAcceleration.Value;
+                    ValueBag.YAcceleration = ipcYAcceleration.Value;
+                    ValueBag.ZAcceleration = ipcZAcceleration.Value;
+                    ValueBag.PitchVelocity = ipcPitchVelocity.Value * 180d / Math.PI;
+                    ValueBag.RollVelocity = ipcRollVelocity.Value * 180d / Math.PI;
+                    ValueBag.YawVelocity = ipcYawVelocity.Value * 180d / Math.PI;
+                }
+                
                 FsxiValueBagUpdated?.Invoke(this, EventArgs.Empty);
             }
             catch (FSUIPCException ex) when (ex.FSUIPCErrorCode == FSUIPCError.FSUIPC_ERR_SENDMSG)

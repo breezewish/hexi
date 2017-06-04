@@ -17,14 +17,6 @@ class PluginOutputStewartVisualize(OutputPlugin):
     self.connected_clients = set()
 
   def handle_motion_signal(self, input_signal, motion_signal):
-    print("%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f" % (
-      motion_signal[0],
-      motion_signal[1],
-      motion_signal[2],
-      numpy.rad2deg(motion_signal[3]),
-      numpy.rad2deg(motion_signal[4]),
-      numpy.rad2deg(motion_signal[5])
-    ))
     data_to_send = json.dumps(motion_signal)
     for client in self.connected_clients:
       asyncio.ensure_future(client.send(data_to_send))

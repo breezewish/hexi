@@ -79,14 +79,23 @@ class PluginInputFsx(InputPlugin):
     self.start_future = asyncio.ensure_future(self.channel.start_async())
     self.start_future.add_done_callback(self.on_start_done)
 
+    self.last_signal = [0, 0, 0, 0, 0, 0]
+    self.emit_signal_future = asyncio.ensure_future(self.emit_signal_async())
+    self.emit_signal_future.add_done_callback(self.on_emit_signal_done)
+
   def on_start_done(self, future):
     self.start_future = None
+
+  def on_emit_signal_done(self, future):
+    self.emit_signal_future = None
 
   def try_destroy_channel(self):
     if self.channel == None:
       return
     if self.start_future != None:
       self.start_future.cancel()
+    if self.emit_signal_future != None:
+      self.emit_signal_future.cancel()
     self.channel.stop()
     self.channel = None
 
@@ -97,8 +106,13 @@ class PluginInputFsx(InputPlugin):
       data['discard_tick']
     ])
 
+  async def emit_signal_async(self):
+    while True:
+      self.emit_input_signal(self.last_signal)
+      await asyncio.sleep(1 / 20)
+
   def on_udp_received_message(self, msg):
-    self.emit_input_signal([
+    self.last_signal = [
       # convert foot to meter
       scipy.constants.foot * msg.transmissionDataBody.zAcceleration,   # forward/backward
       scipy.constants.foot * msg.transmissionDataBody.xAcceleration,   # left/right
@@ -106,5 +120,5 @@ class PluginInputFsx(InputPlugin):
       # convert degree to radians
       numpy.deg2rad(msg.transmissionDataBody.rollVelocity),
       numpy.deg2rad(msg.transmissionDataBody.pitchVelocity),
-      numpy.deg2rad(msg.transmissionDataBody.yawVelocity)])
+      numpy.deg2rad(msg.transmissionDataBody.yawVelocity)]
 
