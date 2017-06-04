@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Timers;
 using System.Windows.Forms;
-using FSUIPC;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.IO;
 
 namespace HexiInputsFsx
 {
@@ -114,5 +114,67 @@ namespace HexiInputsFsx
             timerHexiStatusUpdate.Stop();
             formClosed = true;
         }
+
+        /*
+
+        private List<double[]> records;
+        private DateTime beginAt;
+
+        private readonly double CONST_METER_PER_FOOT = 0.3048;
+        private readonly double CONST_RAD_PER_DEG = 0.017453292519943295;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            records = new List<double[]>();
+            beginAt = DateTime.UtcNow;
+            fsxController.FsxiValueBagUpdated += FsxController_FsxiValueBagUpdated1;
+        }
+
+        private void FsxController_FsxiValueBagUpdated1(object sender, EventArgs e)
+        {
+            double[] values = new double[7];
+            values[0] = DateTime.UtcNow.Subtract(beginAt).TotalSeconds;
+            values[1] = CONST_METER_PER_FOOT * fsxController.ValueBag.ZAcceleration;
+            values[2] = CONST_METER_PER_FOOT * fsxController.ValueBag.XAcceleration;
+            values[3] = CONST_METER_PER_FOOT * fsxController.ValueBag.YAcceleration;
+            values[4] = CONST_RAD_PER_DEG * fsxController.ValueBag.RollVelocity;
+            values[5] = CONST_RAD_PER_DEG * fsxController.ValueBag.PitchVelocity;
+            values[6] = CONST_RAD_PER_DEG * fsxController.ValueBag.YawVelocity;
+            records.Add(values);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (records == null)
+            {
+                return;
+            }
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt|All files|*.*";
+            dialog.RestoreDirectory = true;
+
+            fsxController.FsxiValueBagUpdated -= FsxController_FsxiValueBagUpdated1;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                using (Stream s = dialog.OpenFile())
+                {
+                    using (StreamWriter w = new StreamWriter(s))
+                    {
+                        w.WriteLine("[");
+                        foreach (var values in records)
+                        {
+                            w.WriteLine("  [{0,-15:0.0000},{1,-15:0.0000},{2,-15:0.0000},{3,-15:0.0000},{4,-15:0.0000},{5,-15:0.0000},{6,-15:0.0000}],", values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+                        }
+                        w.WriteLine("]");
+                    }
+                }
+                MessageBox.Show("Write success!");
+            }
+            
+            records = null;
+        }
+
+        */
     }
 }

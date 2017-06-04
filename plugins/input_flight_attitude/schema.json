@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "text": { "type": "string" },
+    "order": { "type": "integer" },
+    "fromState": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "attitudes": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 7,
+        "maxItems": 7,
+        "items": { "type": "number" }
+      }
+    }
+  },
+  "required": [ "id", "text", "attitudes" ]
+}

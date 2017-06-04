@@ -39,9 +39,6 @@ export default {
   created() {
     this.initData();
   },
-  watch: {
-    $route: 'initData',
-  },
   methods: {
     async initData() {
       this.loading = true;

@@ -50,6 +50,7 @@ class TCPClientManager(object):
     self.port = port
     self.retry_sec = retry_sec
     self.work_future = None
+    self.heartbeat_future = None
     self.connect_future = None
     self.reconnect_future = None
     self.reader = None

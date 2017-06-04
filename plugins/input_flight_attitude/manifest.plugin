@@ -1,0 +1,10 @@
+[Core]
+Id = input_flight_attitude
+Category = input
+Name = 标准飞行姿态输入插件
+Module = plugin
+
+[Documentation]
+Author = Built-in
+Version = 0.1
+Description = 提供起飞、偏航和降落的飞行姿态体感模拟
