@@ -12,31 +12,21 @@
 import API from '@module/api';
 import colors from '@core/utils/colors';
 import moment from 'moment';
+import RollingArray from '@core/utils/rollingArray';
 
 let ws;
 let rawData = {
-  'labels': [],
-  'receive': [],
-  'drop': [],
+  'labels': new RollingArray(100),
+  'receive': new RollingArray(100),
+  'drop': new RollingArray(100),
 };
-
-function pushWithLimit(array, data, maxLength = 100) {
-  array.push(data);
-  const l = array.length;
-  if (l > maxLength) {
-    array.splice(0, l - maxLength);
-  }
-}
 
 export default {
   name: 'page-input-fsx-plugin-config-logs',
-  computed() {
-
-  },
   data() {
     return {
       chartData: {
-        labels: rawData.labels,
+        labels: rawData.labels.get(),
         datasets: [
           {
             label: '接收 UDP 包',
@@ -45,7 +35,7 @@ export default {
             borderWidth: 1,
             backgroundColor: colors.blue,
             fill: false,
-            data: rawData.receive
+            data: rawData.receive.get()
           },
           {
             label: '丢弃 UDP 包',
@@ -54,9 +44,9 @@ export default {
             borderWidth: 1,
             backgroundColor: colors.red,
             fill: false,
-            data: rawData.drop
+            data: rawData.drop.get()
           },
-        ]
+        ],
       },
       chartOptions: {
         scales: {
@@ -72,7 +62,7 @@ export default {
           }],
         },
         elements: {
-          point: { radius: 0 }
+          point: { radius: 0 },
         },
       },
       ws: null,
@@ -89,11 +79,13 @@ export default {
       try {
         const data = JSON.parse(ev.data);
         data.forEach(row => {
-          pushWithLimit(rawData.labels, moment(row[0] * 1000).format('mm:ss'));
-          pushWithLimit(rawData.receive, row[1]);
-          pushWithLimit(rawData.drop, row[2]);
+          rawData.labels.pushWithoutResize(moment(row[0] * 1000).format('mm:ss'));
+          rawData.receive.pushWithoutResize(row[1]);
+          rawData.drop.pushWithoutResize(row[2]);
         });
-        console.log(rawData.labels.length);
+        rawData.labels.resize();
+        rawData.receive.resize();
+        rawData.drop.resize();
         this.$refs.chart._chart.update(0);
       } catch (e) {
       }

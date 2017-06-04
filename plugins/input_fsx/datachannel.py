@@ -26,7 +26,6 @@ class UDPServer(asyncio.DatagramProtocol):
       msg.ParseFromString(data)
       if msg.token != self.token:
         _logger.warn('A message is discarded because of incorrect token')
-        print(msg.token, self.token)
         self.manager.ee.emit('udp_discarded_message')
         return
       if msg.serialNumber <= self.sn:

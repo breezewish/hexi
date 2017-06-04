@@ -28,8 +28,7 @@ class PluginInputFsx(InputPlugin):
       'tcp_port': PluginInputFsx.CHANNEL_TCP_PORT,
     }
     self.channel = None
-    self.udp_analytics_log_queue = deque.WebSocketPipingDeque(maxlen=500)
-    #self.udp_data_log_queue = collections.deque(maxlen=500)
+    self.udp_analytics_log_queue = deque.WebSocketPipingDeque(maxlen=100)
 
   def load(self):
     super().load()
@@ -89,6 +88,7 @@ class PluginInputFsx(InputPlugin):
     if self.start_future != None:
       self.start_future.cancel()
     self.channel.stop()
+    self.channel = None
 
   def on_udp_analytics_tick(self, data):
     self.udp_analytics_log_queue.append([

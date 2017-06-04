@@ -116,6 +116,7 @@ class Application {
       },
     },
     this.gui = new dat.GUI();
+    this.gui.close();
     const fEffects = this.gui.addFolder('Effects');
     fEffects.add(this.controlOptions.effects, 'animate');
     fEffects.open();

@@ -18,6 +18,15 @@ export default class UiInputManagerPlugin {
         title: '选择输入信号源',
       },
     });
+    routes.push({
+      name: 'hexiInputManagerConfigLogs',
+      parent: 'hexiInputManagerConfig',
+      path: '/core/inputManager/config/logs',
+      component: require('./Config/logs.vue'),
+      meta: {
+        title: '信号调试',
+      },
+    });
   }
 
   registerSidebarMenus(menus) {

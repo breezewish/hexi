@@ -6,7 +6,7 @@
           <ui-menu-list-item :href="{ name: 'hexiInputManagerConfigActivatedPlugin' }">
             <i class="fa fa-paper-plane" aria-hidden="true"></i> 输入信号源
           </ui-menu-list-item>
-          <ui-menu-list-item :href="'/abc'">
+          <ui-menu-list-item :href="{ name: 'hexiInputManagerConfigLogs' }">
             <i class="fa fa-bug" aria-hidden="true"></i> 信号调试
           </ui-menu-list-item>
         </ui-menu-list>
@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import API from '@core/utils/api';
-
 export default {
   name: 'page-input-manager-config',
 }
