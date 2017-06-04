@@ -18,6 +18,15 @@ export default class UiMCAManagerPlugin {
         title: '选择体感模拟算法',
       },
     });
+    routes.push({
+      name: 'hexiMCAManagerConfigLogs',
+      parent: 'hexiMCAManagerConfig',
+      path: '/core/mcaManager/config/logs',
+      component: require('./Config/logs.vue'),
+      meta: {
+        title: '信号调试',
+      },
+    });
   }
 
   registerSidebarMenus(menus) {

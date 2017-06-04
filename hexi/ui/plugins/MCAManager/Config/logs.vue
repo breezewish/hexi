@@ -1,5 +1,5 @@
 <template>
-  <ui-section-container key="page-input-manager-config-logs" v-loading.body="loading">
+  <ui-section-container key="page-mca-manager-config-logs" v-loading.body="loading">
     <ui-section title="信号调试" width="500px">
       <ui-section-content>
         <ui-chart-line v-for="cd in chartData" ref="chart" :width="480" :height="150" :chart-data="cd" :options="chartOptions"></ui-chart-line>
@@ -9,12 +9,14 @@
 </template>
 
 <script>
+// TODO: refine together with InputManager
+
 import colors from '@core/utils/colors';
 import RollingArray from '@core/utils/rollingArray';
 import moment from 'moment';
 import _ from 'lodash';
 
-const COLUMNS = ['labels', 'X Acceleration', 'Y Acceleration', 'Z Acceleration', 'Alpha Velocity', 'Beta Velocity', 'Gamma Velocity'];
+const COLUMNS = ['labels', 'Transform X', 'Transform Y', 'Transform Z', 'Rotate Alpha', 'Rotate Beta', 'Rotate Gamma'];
 const COLORS = Object.keys(colors);
 
 let ws;
@@ -45,7 +47,7 @@ function buildChartData() {
 }
 
 export default {
-  name: 'page-input-manager-config-logs',
+  name: 'page-mca-manager-config-logs',
   data() {
     return {
       chartData: buildChartData(),
@@ -74,13 +76,14 @@ export default {
   },
   created() {
     this.loading = true;
-    ws = new WebSocket(`ws://${location.host}/core/input/api/input_log`);
+    ws = new WebSocket(`ws://${location.host}/core/mca/api/mca_log`);
     ws.addEventListener('open', () => {
       this.loading = false;
     });
     ws.addEventListener('message', ev => {
       try {
         const data = JSON.parse(ev.data);
+        console.log(data);
         data.forEach(row => {
           rawData[COLUMNS[0]].pushWithoutResize(moment(row[0] * 1000).format('mm:ss'));
           COLUMNS.slice(1).forEach((key, idx) => {

@@ -7,7 +7,6 @@ from hexi.util import deque
 from hexi.plugin.InputPlugin import InputPlugin
 
 
-
 class InputManager(BaseManager):
   def __init__(self):
     super().__init__('input', 'input', InputPlugin)

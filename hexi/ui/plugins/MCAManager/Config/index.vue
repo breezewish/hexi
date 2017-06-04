@@ -6,7 +6,7 @@
           <ui-menu-list-item :href="{ name: 'hexiMCAManagerConfigActivatedPlugin' }">
             <i class="fa fa-code" aria-hidden="true"></i> 体感模拟算法
           </ui-menu-list-item>
-          <ui-menu-list-item :href="'/abc'">
+          <ui-menu-list-item :href="{ name: 'hexiMCAManagerConfigLogs' }">
             <i class="fa fa-bug" aria-hidden="true"></i> 信号调试
           </ui-menu-list-item>
         </ui-menu-list>
