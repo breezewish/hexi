@@ -17,12 +17,7 @@ _logger = logging.getLogger(__name__)
 VECTOR_G = numpy.array([[0, 0, scipy.constants.g]]).T
 MAX_MOVE_ACCELERATION = 1                 # in meters
 MAX_ROTATE_VELOCITY = numpy.deg2rad(10)   # in degree
-MAX_TILT_ACCELERATION = math.sin(numpy.deg2rad(30)) * scipy.constants.g
-
-coll_2lp = []
-coll_3hp = []
-coll_s = []
-coll_theta_tc = []
+MAX_TILT_ACCELERATION = math.sin(numpy.deg2rad(10)) * scipy.constants.g
 
 
 class PluginMCAClassicalWashout(MCAPlugin):
@@ -235,6 +230,7 @@ class PluginMCAClassicalWashout(MCAPlugin):
     self._update_scale(data)
 
     # 旋转矩阵
+    """
     r_x = numpy.array([
       [1, 0, 0],
       [0, math.cos(po[0][0]), math.sin(po[0][0])],
@@ -251,9 +247,10 @@ class PluginMCAClassicalWashout(MCAPlugin):
       [0, 0, 1],
     ])
     L = r_x.dot(r_y).dot(r_z)
+    """
 
     # 体坐标系下重力加速度
-    g_a = L.dot(VECTOR_G)
+    g_a = VECTOR_G
 
     # 绝对线加速度
     a_a = numpy.array([data[0:3]]).T
@@ -270,7 +267,7 @@ class PluginMCAClassicalWashout(MCAPlugin):
     f_s = self.apply_movement_scaling(f_a)
 
     # 位移运动：变幻
-    f_i = L.dot(f_s)
+    f_i = f_s #L.dot(f_s)
     a_i = f_i + VECTOR_G
 
     # 位移运动：高通滤波
@@ -320,8 +317,3 @@ class PluginMCAClassicalWashout(MCAPlugin):
       po[1][0],
       po[2][0],
     ])
-
-    #coll_2lp.append(f_lp[0][0])
-    #coll_3hp.append(a_hp[0][0])
-    #coll_s.append(ps[0][0])
-    #coll_theta_tc.append(theta_lp[1][0])
