@@ -29,6 +29,8 @@
 import API from '@module/api';
 import WebSocket from 'reconnecting-websocket';
 
+let ws = null;
+
 export default {
   name: 'page-input-flight-attitude-plugin-main',
   data() {
@@ -39,32 +41,23 @@ export default {
     };
   },
   created() {
-    this.initConnection();
+    this.loading = true;
+    ws = new WebSocket(`ws://${location.host}/plugins/input_flight_attitude/api/state`);
+    ws.addEventListener('open', () => {
+      this.loading = false;
+    });
+    ws.addEventListener('message', ev => {
+      try {
+        const data = JSON.parse(ev.data);
+        this.data = data;
+      } catch (e) {
+      }
+    });
   },
   destroyed() {
-    this.destroyConnection();
-  },
-  watch: {
-    $route: 'initConnection',
+    ws.close();
   },
   methods: {
-    async initConnection() {
-      this.loading = true;
-      this.ws = new WebSocket(`ws://${location.host}/plugins/input_flight_attitude/api/state`);
-      this.ws.addEventListener('open', () => {
-        this.loading = false;
-      });
-      this.ws.addEventListener('message', ev => {
-        try {
-          const data = JSON.parse(ev.data);
-          this.data = data;
-        } catch (e) {
-        }
-      });
-    },
-    async destroyConnection() {
-      this.ws.close();
-    },
     async setState(stateId) {
       await API.state.set(stateId);
     },

@@ -21,6 +21,15 @@ class Plugin {
         title: '数据监听配置',
       },
     });
+    routes.push({
+      name: 'inputPluginFsxConfigLogs',
+      parent: 'inputPluginFsxConfig',
+      path: `/plugins/${PLUGIN_MANIFEST.Core.Id}/config/logs`,
+      component: require('./config/logs.vue'),
+      meta: {
+        title: '数据接收日志',
+      },
+    });
   }
 }
 

@@ -1,11 +1,12 @@
+import time
 import asyncio
 import ipaddress
-import collections
 import logging
 import numpy
 import scipy.constants
 
 from sanic import response
+from hexi.util import deque
 from hexi.plugin.InputPlugin import InputPlugin
 from plugins.input_fsx import DataChannel
 
@@ -27,7 +28,7 @@ class PluginInputFsx(InputPlugin):
       'tcp_port': PluginInputFsx.CHANNEL_TCP_PORT,
     }
     self.channel = None
-    #self.udp_analytics_log_queue = collections.deque(maxlen=500)
+    self.udp_analytics_log_queue = deque.WebSocketPipingDeque(maxlen=500)
     #self.udp_data_log_queue = collections.deque(maxlen=500)
 
   def load(self):
@@ -45,6 +46,8 @@ class PluginInputFsx(InputPlugin):
       except Exception as e:
         _logger.exception('Save config failed')
         return response.json({ 'code': 400, 'reason': str(e) })
+
+    self.udp_analytics_log_queue.attach_ws_endpoint(self.bp, '/api/udp_log')
 
   def activate(self):
     super().activate()
@@ -88,9 +91,11 @@ class PluginInputFsx(InputPlugin):
     self.channel.stop()
 
   def on_udp_analytics_tick(self, data):
-    print(data)
-    # TODO
-    pass
+    self.udp_analytics_log_queue.append([
+      int(time.time()),
+      data['receive_tick'],
+      data['discard_tick']
+    ])
 
   def on_udp_received_message(self, msg):
     self.emit_input_signal([

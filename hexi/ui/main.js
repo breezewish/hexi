@@ -9,6 +9,7 @@ import Moment from 'vue-moment';
 import UiSection from '@core/components/Section';
 import UiPluginList from '@core/components/PluginList';
 import UiMenuList from '@core/components/MenuList';
+import UiChartLine from '@core/components/Chart/Line';
 import App from '@core/App';
 import store from '@core/store';
 import SidebarBuilder from '@core/utils/sidebarBuilder';
@@ -21,6 +22,7 @@ Vue.use(Moment);
 Vue.use(UiSection);
 Vue.use(UiPluginList);
 Vue.use(UiMenuList);
+Vue.use(UiChartLine);
 
 const Hexi = {};
 window.Hexi = Hexi;

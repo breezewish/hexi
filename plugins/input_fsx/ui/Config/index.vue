@@ -6,7 +6,7 @@
           <ui-menu-list-item :href="{ name: 'inputPluginFsxConfigDataOptions' }">
             <i class="fa fa-cog" aria-hidden="true"></i> 数据监听配置
           </ui-menu-list-item>
-          <ui-menu-list-item :href="'/abc'">
+          <ui-menu-list-item :href="{ name: 'inputPluginFsxConfigLogs' }">
             <i class="fa fa-info-circle" aria-hidden="true"></i> 数据接收日志
           </ui-menu-list-item>
         </ui-menu-list>
