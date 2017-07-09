@@ -1,7 +1,7 @@
 # hexi
 Hexi is a generic motion simulator. Developed as my graduation project ([thesis PDF in Chinese](./resources/thesis.pdf)).
 
-[Video demo on Youtube]([https://youtu.be/wAmHUI8TY4Q](https://youtu.be/wAmHUI8TY4Q))
+[Video demo on Youtube](https://youtu.be/wAmHUI8TY4Q)
 
 ## Features
 
@@ -72,6 +72,6 @@ To recompile the user interface of core modules:
 
 ```bash
 npm run build:coreDll
-npm run build:core # alternatively: npm run build:core -- --watch
+npm run build:core   # alternatively: npm run build:core -- --watch
 ```
 
